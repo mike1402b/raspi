@@ -1,3 +1,3 @@
 # raspi
 raspberry projects
-Temperature usw
+Temperature 1wire usw
