@@ -21,12 +21,12 @@ def read_sensor(path):
 
 # define pathes to 1-wire sensor data
 pathes = (
-  "/sys/bus/w1/devices/28-03163662983ff/w1_slave",
+  "/sys/bus/w1/devices/28-0316362983ff/w1_slave",
   "/sys/bus/w1/devices/28-031671a827ff/w1_slave"
 )
 
 # read sensor data
-with open("1temperatur.txt", "a") as myfile:
+with open("/home/pi/raspi/pipool/1temp.txt", "a") as myfile:
     myfile.write(time.strftime("%d.%m.%Y %H:%M:%S  "))
 
 data = 'N'
@@ -35,9 +35,12 @@ for path in pathes:
   data += read_sensor(path)
   time.sleep(1)
 
+#only 2 sensors => have to add 8 unknown values
+data+=':U:U:U:U:U:U:U:U'
+
 # insert data into round-robin-database
 rrdtool.update(
-  "%s/temperature.rrd" % (os.path.dirname(os.path.abspath(__file__))),
+  "%s/temp.rrd" % (os.path.dirname(os.path.abspath(__file__))),
   data)
 
 #rrdtool.graph( "temperaturDay.png -s 'now - 1 day' -e 'now' DEF:temp0=temperature.rrd:temp1:AVERAGE  LINE2:temp0#00FF00:Innen   DEF:temp1=temperature.rrd:temp0:AVERAGE   LINE2:temp1#0000FF:Aussen")
@@ -46,7 +49,7 @@ rrdtool.update(
 print(time.strftime("%d.%m.%Y %H:%M:%S"))
 print data
 
-with open("1temperatur.txt", "a") as myfile:
+with open("/home/pi/raspi/pipool/1temp.txt", "a") as myfile:
     myfile.write(data)
     myfile.write("\n")
     
