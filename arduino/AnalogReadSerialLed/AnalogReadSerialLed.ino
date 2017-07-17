@@ -29,7 +29,7 @@ void loop() {
   // print out the value you read:
   Serial.print(">A0:");
   Serial.print(sensorValue);
-  Serial.print(" (");
+  Serial.print("< (");
   Serial.print(volt);
   Serial.print(" )");
   Serial.println();
