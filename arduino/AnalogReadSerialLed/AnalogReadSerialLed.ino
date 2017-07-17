@@ -27,9 +27,12 @@ void loop() {
   int sensorValue = analogRead(A0);
   double volt=sensorValue*0.0495; //ca 50/1023
   // print out the value you read:
+  Serial.print(">A0:");
   Serial.print(sensorValue);
-  Serial.print(" : ");
-  Serial.println(volt);
+  Serial.print(" (");
+  Serial.print(volt);
+  Serial.print(" )");
+  Serial.println();
   delay(1);        // delay in between reads for stability
   count = count +1;
   if (count>200)
