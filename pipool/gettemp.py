@@ -32,7 +32,12 @@ with open("/home/pi/raspi/pipool/1temp.txt", "a") as myfile:
 data = 'N'
 for path in pathes:
   data += ':'
-  data += read_sensor(path)
+  sensorValue = read_sensor(path)
+  sensorValueFloat = float(sensorValue)
+  while sensorValueFloat>60.0:
+    print "wrong value, too high:", sensorValue
+    sensorValue = read_sensor(path)
+  data += sensorValue
   time.sleep(1)
 
 #only 2 sensors => have to add 8 unknown values
