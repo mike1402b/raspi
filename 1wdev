@@ -1,2 +1,0 @@
-#alle geraete am 1w bus
-ls /sys/bus/w1/devices
