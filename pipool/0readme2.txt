@@ -1,9 +1,10 @@
 verteilerplatine nähe erdloch/pool/kiste:
 SensorNr. von steckleitungen weggezählt
-1 28-051670c1a5ff
-2 28-0516715d67ff
-3 28-041671ad71ff
-
+1 28-051670c1a5ff kiste
+2 28-0516715d67ff kiste 
+3 28-041671ad71ff erde
+4 28-0316721a7eff pool
+5
 
 pi3exp:
 28-03163690c5ff innen (9)
