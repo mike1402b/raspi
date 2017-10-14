@@ -44,6 +44,12 @@ rrdtool graph tDayAll.png  -s 'now - 1 day' -e 'now' \
   DEF:t4=temp.rrd:t4:AVERAGE \
   LINE2:t4#00DD00:erdeO \
   DEF:t5=temp.rrd:t5:AVERAGE \
-  LINE2:t5#A0FF00:kisteOben 
+  LINE2:t5#AAFF00:kisteU \
+  DEF:t6=temp.rrd:t6:AVERAGE \
+  LINE2:t6#55AA00:kisteO \
+  DEF:t7=temp.rrd:t7:AVERAGE \
+  LINE2:t7#00FFAA:aussen \
+  DEF:t8=temp.rrd:t8:AVERAGE \
+  LINE2:t8#AA0000:solar 
   
 cp tDayAll.png /var/www/html/
