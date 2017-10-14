@@ -21,9 +21,15 @@ def read_sensor(path):
 
 # define pathes to 1-wire sensor data
 pathes = (
-  "/sys/bus/w1/devices/28-0316362983ff/w1_slave",
-  "/sys/bus/w1/devices/28-0316721a7eff/w1_slave",
-  "/sys/bus/w1/devices/28-031671a827ff/w1_slave"
+  "/sys/bus/w1/devices/28-0316362983ff/w1_slave", # raspi direkt
+  "/sys/bus/w1/devices/28-0316721a7eff/w1_slave", # pool oben 4
+  "/sys/bus/w1/devices/28-0516718311ff/w1_slave", # pool unten 5
+  "/sys/bus/w1/devices/28-0316712754ff/w1_slave", # erde tief 6
+  "/sys/bus/w1/devices/28-05167120f2ff/w1_slave", # erde oben 7
+  "/sys/bus/w1/devices/28-051670c1a5ff/w1_slave", # kiste  unten 1  
+  "/sys/bus/w1/devices/28-0516715d67ff/w1_slave", # kiste  oben 2
+  "/sys/bus/w1/devices/28-051670c1a5ff/w1_slave", # außen 3
+  "/sys/bus/w1/devices/28-031671a827ff/w1_slave" #solarmatte
 )
 
 # read sensor data
@@ -41,8 +47,8 @@ for path in pathes:
   data += sensorValue
   time.sleep(1)
 
-#only 2 sensors => have to add 8 unknown values
-data+=':U:U:U:U:U:U:U:U'
+#only 9 sensors => have to add 1 unknown values
+data+=':U'
 
 # insert data into round-robin-database
 rrdtool.update(
