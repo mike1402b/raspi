@@ -5,6 +5,7 @@ SensorNr. von steckleitungen weggezählt
 3 28-041671ad71ff außen
 4 28-0316721a7eff pool
 5 28-0516718311ff pool
+6 28-0316712754ff erde tief
 
 pi3exp:
 28-03163690c5ff innen (9)
