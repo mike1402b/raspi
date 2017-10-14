@@ -32,3 +32,13 @@ rrdtool graph tYear.png  -s 'now - 1 year' -e 'now' \
 
 cp tYear.png /var/www/html/
 
+rrdtool graph tDayAll.png  -s 'now - 1 day' -e 'now' \
+  DEF:t0=temp.rrd:t0:AVERAGE \
+  LINE2:t0#FF0000:pi \
+  DEF:t1=temp.rrd:t1:AVERAGE \
+  LINE2:t1#0000FF:pool \
+  DEF:t2=temp.rrd:t2:AVERAGE \
+  LINE3:t1#00FF00:pool
+
+  
+cp tDayAll.png /var/www/html/
