@@ -36,9 +36,14 @@ rrdtool graph tDayAll.png  -s 'now - 1 day' -e 'now' \
   DEF:t0=temp.rrd:t0:AVERAGE \
   LINE2:t0#FF0000:pi \
   DEF:t1=temp.rrd:t1:AVERAGE \
-  LINE2:t1#0000FF:pool \
+  LINE2:t1#0000FF:poolOben \
   DEF:t2=temp.rrd:t2:AVERAGE \
-  LINE3:t1#00FF00:pool
-
+  LINE2:t2#0000F1:poolUnten \
+  DEF:t3=temp.rrd:t3:AVERAGE \
+  LINE2:t3#00FF00:erde tief \
+  DEF:t4=temp.rrd:t3:AVERAGE \
+  LINE2:t4#00F100:erde oben \
+  DEF:t5=temp.rrd:t3:AVERAGE \
+  LINE2:t5#A0E100: kiste oben 
   
 cp tDayAll.png /var/www/html/
