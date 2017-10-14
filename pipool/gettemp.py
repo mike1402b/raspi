@@ -22,6 +22,7 @@ def read_sensor(path):
 # define pathes to 1-wire sensor data
 pathes = (
   "/sys/bus/w1/devices/28-0316362983ff/w1_slave",
+  "/sys/bus/w1/devices/28-0316721a7eff/w1_slave",
   "/sys/bus/w1/devices/28-031671a827ff/w1_slave"
 )
 

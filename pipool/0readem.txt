@@ -1,0 +1,9 @@
+Temperatursensoren:
+1 pool tief
+2 pool hoch
+3 erde tief
+4 erde hoch
+5 kiste tief
+6 kiste hoch
+7 hütte solardeck
+8 raspi board
