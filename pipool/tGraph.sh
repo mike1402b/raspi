@@ -38,11 +38,11 @@ rrdtool graph tDayAll.png  -s 'now - 1 day' -e 'now' -w 600 -h 300 \
   DEF:t1=temp.rrd:t1:AVERAGE \
   LINE2:t1#0000FF:poolO \
   DEF:t2=temp.rrd:t2:AVERAGE \
-  LINE2:t2#0000DD:poolU \
+  LINE2:t2#000099:poolU \
   DEF:t3=temp.rrd:t3:AVERAGE \
   LINE2:t3#00FF00:erdeU \
   DEF:t4=temp.rrd:t4:AVERAGE \
-  LINE2:t4#00DD00:erdeO \
+  LINE2:t4#009900:erdeO \
   DEF:t5=temp.rrd:t5:AVERAGE \
   LINE2:t5#AAFF00:kisteU \
   DEF:t6=temp.rrd:t6:AVERAGE \
@@ -53,3 +53,69 @@ rrdtool graph tDayAll.png  -s 'now - 1 day' -e 'now' -w 600 -h 300 \
   LINE2:t8#AA0000:solar 
   
 cp tDayAll.png /var/www/html/
+
+rrdtool graph tWeekAll.png  -s 'now - 1 week' -e 'now' -w 600 -h 300 \
+  DEF:t0=temp.rrd:t0:AVERAGE \
+  LINE2:t0#FF0000:pi \
+  DEF:t1=temp.rrd:t1:AVERAGE \
+  LINE2:t1#0000FF:poolO \
+  DEF:t2=temp.rrd:t2:AVERAGE \
+  LINE2:t2#000099:poolU \
+  DEF:t3=temp.rrd:t3:AVERAGE \
+  LINE2:t3#00FF00:erdeU \
+  DEF:t4=temp.rrd:t4:AVERAGE \
+  LINE2:t4#001100:erdeO \
+  DEF:t5=temp.rrd:t5:AVERAGE \
+  LINE2:t5#AAFF00:kisteU \
+  DEF:t6=temp.rrd:t6:AVERAGE \
+  LINE2:t6#55AA00:kisteO \
+  DEF:t7=temp.rrd:t7:AVERAGE \
+  LINE2:t7#00FFAA:aussen \
+  DEF:t8=temp.rrd:t8:AVERAGE \
+  LINE2:t8#AA0000:solar 
+  
+cp tWeekAll.png /var/www/html/
+
+rrdtool graph tMonthAll.png  -s 'now - 1 month' -e 'now' -w 600 -h 300 \
+  DEF:t0=temp.rrd:t0:AVERAGE \
+  LINE2:t0#FF0000:pi \
+  DEF:t1=temp.rrd:t1:AVERAGE \
+  LINE2:t1#0000FF:poolO \
+  DEF:t2=temp.rrd:t2:AVERAGE \
+  LINE2:t2#000099:poolU \
+  DEF:t3=temp.rrd:t3:AVERAGE \
+  LINE2:t3#00FF00:erdeU \
+  DEF:t4=temp.rrd:t4:AVERAGE \
+  LINE2:t4#001100:erdeO \
+  DEF:t5=temp.rrd:t5:AVERAGE \
+  LINE2:t5#AAFF00:kisteU \
+  DEF:t6=temp.rrd:t6:AVERAGE \
+  LINE2:t6#55AA00:kisteO \
+  DEF:t7=temp.rrd:t7:AVERAGE \
+  LINE2:t7#00FFAA:aussen \
+  DEF:t8=temp.rrd:t8:AVERAGE \
+  LINE2:t8#AA0000:solar 
+  
+cp tMonthAll.png /var/www/html/
+
+rrdtool graph tYearAll.png  -s 'now - 1 year' -e 'now' -w 600 -h 300 \
+  DEF:t0=temp.rrd:t0:AVERAGE \
+  LINE2:t0#FF0000:pi \
+  DEF:t1=temp.rrd:t1:AVERAGE \
+  LINE2:t1#0000FF:poolO \
+  DEF:t2=temp.rrd:t2:AVERAGE \
+  LINE2:t2#000099:poolU \
+  DEF:t3=temp.rrd:t3:AVERAGE \
+  LINE2:t3#00FF00:erdeU \
+  DEF:t4=temp.rrd:t4:AVERAGE \
+  LINE2:t4#001100:erdeO \
+  DEF:t5=temp.rrd:t5:AVERAGE \
+  LINE2:t5#AAFF00:kisteU \
+  DEF:t6=temp.rrd:t6:AVERAGE \
+  LINE2:t6#55AA00:kisteO \
+  DEF:t7=temp.rrd:t7:AVERAGE \
+  LINE2:t7#00FFAA:aussen \
+  DEF:t8=temp.rrd:t8:AVERAGE \
+  LINE2:t8#AA0000:solar 
+  
+cp tYearAll.png /var/www/html/
