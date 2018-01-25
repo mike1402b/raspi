@@ -41,10 +41,13 @@ rrdtool graph tYear.png  -s 'now - 1 year' -e 'now' -w 400 -h 200 \
   LINE2:t0#FF0000:pi \
   DEF:t8=temp.rrd:t8:AVERAGE \
   LINE2:t8#AA0000:solar \
+  DEF:t7=temp.rrd:t7:AVERAGE \
+  LINE2:t7#00FFAA:aussen \
   DEF:t1=temp.rrd:t1:AVERAGE \
   LINE2:t1#0000FF:poolU \
   DEF:t2=temp.rrd:t2:AVERAGE \
   LINE2:t2#000077:poolO 
+
   
 cp tYear.png /var/www/html/
 
