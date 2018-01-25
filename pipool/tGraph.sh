@@ -1,10 +1,13 @@
 cd /home/pi/raspi/pipool
 
-rrdtool graph tDay.png  -s 'now - 1 day' -e 'now' \
+rrdtool graph tDay.png  -s 'now - 1 day' -e 'now' -w 400 -h 200 \
   DEF:t0=temp.rrd:t0:AVERAGE \
   LINE2:t0#FF0000:pi \
   DEF:t1=temp.rrd:t1:AVERAGE \
-  LINE2:t1#0000FF:pool
+  LINE2:t1#0000FF:poolU \
+  DEF:t2=temp.rrd:t2:AVERAGE \
+  LINE2:t2#000077:poolO 
+  
 
 cp tDay.png /var/www/html/
 
@@ -35,10 +38,6 @@ cp tYear.png /var/www/html/
 rrdtool graph tDayAll.png  -s 'now - 1 day' -e 'now' -w 600 -h 300 \
   DEF:t0=temp.rrd:t0:AVERAGE \
   LINE2:t0#FF0000:pi \
-  DEF:t1=temp.rrd:t1:AVERAGE \
-  LINE2:t1#0000FF:poolO \
-  DEF:t2=temp.rrd:t2:AVERAGE \
-  LINE2:t2#000077:poolU \
   DEF:t3=temp.rrd:t3:AVERAGE \
   LINE2:t3#00FF00:erdeU \
   DEF:t4=temp.rrd:t4:AVERAGE \
