@@ -6,7 +6,7 @@ rrdtool graph tDay.png  -s 'now - 1 day' -e 'now' -w 400 -h 200 \
   DEF:t8=temp.rrd:t8:AVERAGE \
   LINE2:t8#AA0000:solar \
   DEF:t6=temp.rrd:t6:AVERAGE \
-  LINE2:t6#ffc0c0:Aussen \
+  LINE2:t6#00FFAA:Aussen \
   DEF:t1=temp.rrd:t1:AVERAGE \
   LINE2:t1#0000FF:poolU \
   DEF:t2=temp.rrd:t2:AVERAGE \
@@ -20,7 +20,7 @@ rrdtool graph tWeek.png  -s 'now - 1 week' -e 'now' -w 400 -h 200 \
   DEF:t8=temp.rrd:t8:AVERAGE \
   LINE2:t8#AA0000:solar \
   DEF:t6=temp.rrd:t6:AVERAGE \
-  LINE2:t6#ffc0c0:Aussen \
+  LINE2:t6#00FFAA:Aussen \
   DEF:t1=temp.rrd:t1:AVERAGE \
   LINE2:t1#0000FF:poolU \
   DEF:t2=temp.rrd:t2:AVERAGE \
@@ -34,7 +34,7 @@ rrdtool graph tMonth.png  -s 'now - 1 month' -e 'now' -w 400 -h 200 \
   DEF:t8=temp.rrd:t8:AVERAGE \
   LINE2:t8#AA0000:solar \
   DEF:t6=temp.rrd:t6:AVERAGE \
-  LINE2:t6#ffc0c0:Aussen \
+  LINE2:t6#00FFAA:Aussen \
   DEF:t1=temp.rrd:t1:AVERAGE \
   LINE2:t1#0000FF:poolU \
   DEF:t2=temp.rrd:t2:AVERAGE \
@@ -48,7 +48,7 @@ rrdtool graph tYear.png  -s 'now - 1 year' -e 'now' -w 400 -h 200 \
   DEF:t8=temp.rrd:t8:AVERAGE \
   LINE2:t8#AA0000:solar \
   DEF:t6=temp.rrd:t6:AVERAGE \
-  LINE2:t6#ffc0c0:Aussen \
+  LINE2:t6#00FFAA:Aussen \
   DEF:t1=temp.rrd:t1:AVERAGE \
   LINE2:t1#0000FF:poolU \
   DEF:t2=temp.rrd:t2:AVERAGE \
@@ -69,7 +69,7 @@ rrdtool graph tDayAll.png  -s 'now - 1 day' -e 'now' -w 400 -h 200 \
   DEF:t5=temp.rrd:t5:AVERAGE \
   LINE2:t5#FF0000:kisteU \
   DEF:t7=temp.rrd:t7:AVERAGE \
-  LINE2:t7#FFCC00:kisteO 
+  LINE2:t7#8B0000:kisteO 
   
 cp tDayAll.png /var/www/html/
 
@@ -84,7 +84,7 @@ rrdtool graph tWeekAll.png  -s 'now - 1 week' -e 'now' -w 400 -h 200 \
   DEF:t5=temp.rrd:t5:AVERAGE \
   LINE2:t5#FF0000:kisteU \
   DEF:t7=temp.rrd:t7:AVERAGE \
-  LINE2:t7#FFCC00:kisteO 
+  LINE2:t7#8B0000:kisteO 
   
 cp tWeekAll.png /var/www/html/
 
@@ -98,7 +98,7 @@ rrdtool graph tMonthAll.png  -s 'now - 1 month' -e 'now' -w 400 -h 200 \
   DEF:t5=temp.rrd:t5:AVERAGE \
   LINE2:t5#FF0000:kisteU \
   DEF:t7=temp.rrd:t7:AVERAGE \
-  LINE2:t7#FFCC00:kisteO 
+  LINE2:t7#8B0000:kisteO 
   
 cp tMonthAll.png /var/www/html/
 
@@ -112,6 +112,6 @@ rrdtool graph tYearAll.png  -s 'now - 1 year' -e 'now' -w 400 -h 200 \
   DEF:t5=temp.rrd:t5:AVERAGE \
   LINE2:t5#FF0000:kisteU \
   DEF:t7=temp.rrd:t7:AVERAGE \
-  LINE2:t7#FFCC00:kisteO 
+  LINE2:t7#8B0000:kisteO 
   
 cp tYearAll.png /var/www/html/
