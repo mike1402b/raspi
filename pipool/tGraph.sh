@@ -10,7 +10,6 @@ rrdtool graph tDay.png  -s 'now - 1 day' -e 'now' -w 400 -h 200 \
   DEF:t2=temp.rrd:t2:AVERAGE \
   LINE2:t2#000077:poolO 
   
-
 cp tDay.png /var/www/html/
 
 rrdtool graph tWeek.png  -s 'now - 1 week' -e 'now' -w 400 -h 200 \
@@ -49,21 +48,24 @@ rrdtool graph tYear.png  -s 'now - 1 year' -e 'now' -w 400 -h 200 \
   
 cp tYear.png /var/www/html/
 
+#---------------------------- 2. Diagramm -------------------------------
+
 rrdtool graph tDayAll.png  -s 'now - 1 day' -e 'now' -w 400 -h 200 \
   DEF:t3=temp.rrd:t3:AVERAGE \
   LINE2:t3#00FF00:erdeU \
   DEF:t4=temp.rrd:t4:AVERAGE \
   LINE2:t4#009900:erdeO \
   DEF:t5=temp.rrd:t5:AVERAGE \
-  LINE2:t5#FFa500:kisteU \
+  LINE2:t5#FF0000:kisteU \
   DEF:t6=temp.rrd:t6:AVERAGE \
-  LINE2:t6#ffc04e:kisteO \
+  LINE2:t6#ffc0c0:kisteO \
   DEF:t7=temp.rrd:t7:AVERAGE \
   LINE2:t7#00FFAA:aussen 
   
 cp tDayAll.png /var/www/html/
 
-rrdtool graph tWeekAll.png  -s 'now - 1 week' -e 'now' -w 600 -h 300 \
+
+rrdtool graph tWeekAll.png  -s 'now - 1 week' -e 'now' -w 400 -h 200 \
   DEF:t3=temp.rrd:t3:AVERAGE \
   LINE2:t3#00FF00:erdeU \
   DEF:t4=temp.rrd:t4:AVERAGE \
@@ -79,7 +81,7 @@ rrdtool graph tWeekAll.png  -s 'now - 1 week' -e 'now' -w 600 -h 300 \
   
 cp tWeekAll.png /var/www/html/
 
-rrdtool graph tMonthAll.png  -s 'now - 1 month' -e 'now' -w 600 -h 300 \
+rrdtool graph tMonthAll.png  -s 'now - 1 month' -e 'now' -w 400 -h 200 \
   DEF:t3=temp.rrd:t3:AVERAGE \
   LINE2:t3#00FF00:erdeU \
   DEF:t4=temp.rrd:t4:AVERAGE \
@@ -95,7 +97,7 @@ rrdtool graph tMonthAll.png  -s 'now - 1 month' -e 'now' -w 600 -h 300 \
   
 cp tMonthAll.png /var/www/html/
 
-rrdtool graph tYearAll.png  -s 'now - 1 year' -e 'now' -w 600 -h 300 \
+rrdtool graph tYearAll.png  -s 'now - 1 year' -e 'now' -w 400 -h 200 \
   DEF:t3=temp.rrd:t3:AVERAGE \
   LINE2:t3#00FF00:erdeU \
   DEF:t4=temp.rrd:t4:AVERAGE \
