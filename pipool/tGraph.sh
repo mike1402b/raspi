@@ -38,7 +38,7 @@ rrdtool graph tDayAll.png  -s 'now - 1 day' -e 'now' -w 600 -h 300 \
   DEF:t1=temp.rrd:t1:AVERAGE \
   LINE2:t1#0000FF:poolO \
   DEF:t2=temp.rrd:t2:AVERAGE \
-  LINE2:t2#000099:poolU \
+  LINE2:t2#000077:poolU \
   DEF:t3=temp.rrd:t3:AVERAGE \
   LINE2:t3#00FF00:erdeU \
   DEF:t4=temp.rrd:t4:AVERAGE \
