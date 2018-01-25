@@ -7,8 +7,8 @@ SensorNr. von steckleitungen weggezählt
 1 28-051670c1a5ff kiste unten
 2 28-0516715d67ff kiste oben
 3 28-041671ad71ff außen
-4 28-0316721a7eff pool oben
-5 28-0516718311ff pool unten
+4 28-0316721a7eff pool unten
+5 28-0516718311ff pool oben
 6 28-0316712754ff erde tief
 7 28-05167120f2ff erde oben
 
