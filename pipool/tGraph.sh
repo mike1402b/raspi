@@ -8,9 +8,9 @@ rrdtool graph tDay.png  -s 'now - 1 day' -e 'now' -w 400 -h 200 \
   DEF:t6=temp.rrd:t6:AVERAGE \
   LINE2:t6#00FFAA:Aussen \
   DEF:t1=temp.rrd:t1:AVERAGE \
-  LINE2:t1#0000FF:poolU \
+  LINE2:t1#000077:poolU \
   DEF:t2=temp.rrd:t2:AVERAGE \
-  LINE2:t2#000077:poolO 
+  LINE2:t2#0000FF:poolO 
   
 cp tDay.png /var/www/html/
 
@@ -22,9 +22,9 @@ rrdtool graph tWeek.png  -s 'now - 1 week' -e 'now' -w 400 -h 200 \
   DEF:t6=temp.rrd:t6:AVERAGE \
   LINE2:t6#00FFAA:Aussen \
   DEF:t1=temp.rrd:t1:AVERAGE \
-  LINE2:t1#0000FF:poolU \
+  LINE2:t1#000077:poolU \
   DEF:t2=temp.rrd:t2:AVERAGE \
-  LINE2:t2#000077:poolO 
+  LINE2:t2#0000FF:poolO 
 
 cp tWeek.png /var/www/html/
 
@@ -36,9 +36,9 @@ rrdtool graph tMonth.png  -s 'now - 1 month' -e 'now' -w 400 -h 200 \
   DEF:t6=temp.rrd:t6:AVERAGE \
   LINE2:t6#00FFAA:Aussen \
   DEF:t1=temp.rrd:t1:AVERAGE \
-  LINE2:t1#0000FF:poolU \
+  LINE2:t1#000077:poolU \
   DEF:t2=temp.rrd:t2:AVERAGE \
-  LINE2:t2#000077:poolO 
+  LINE2:t2#0000FF:poolO 
 
 cp tMonth.png /var/www/html/
 
@@ -50,9 +50,9 @@ rrdtool graph tYear.png  -s 'now - 1 year' -e 'now' -w 400 -h 200 \
   DEF:t6=temp.rrd:t6:AVERAGE \
   LINE2:t6#00FFAA:Aussen \
   DEF:t1=temp.rrd:t1:AVERAGE \
-  LINE2:t1#0000FF:poolU \
+  LINE2:t1#000077:poolU \
   DEF:t2=temp.rrd:t2:AVERAGE \
-  LINE2:t2#000077:poolO 
+  LINE2:t2#0000FF:poolO 
 
   
 cp tYear.png /var/www/html/
