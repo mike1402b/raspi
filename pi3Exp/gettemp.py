@@ -21,8 +21,8 @@ def read_sensor(path):
 
 # define pathes to 1-wire sensor data
 pathes = (
-  "/sys/bus/w1/devices/28-0316368011ff/w1_slave",
-  "/sys/bus/w1/devices/28-03163690c5ff/w1_slave"
+  "/sys/bus/w1/devices/28-0416366348ff/w1_slave",
+  "/sys/bus/w1/devices/28-0416366348ff/w1_slave"
 )
 
 # read sensor data
@@ -31,6 +31,7 @@ with open("1temperatur.txt", "a") as myfile:
 
 data = 'N'
 for path in pathes:
+#  print "read ",path
   data += ':'
   sensorValue = read_sensor(path)
   sensorValueFloat = float(sensorValue)
