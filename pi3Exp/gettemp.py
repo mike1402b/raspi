@@ -46,6 +46,7 @@ rrdtool.update(
   "%s/temperature.rrd" % (os.path.dirname(os.path.abspath(__file__))),
   data)
 
+#rrdtool.update(  "%s/solar.rrd" % (os.path.dirname(os.path.abspath(__file__))),  data)
 #rrdtool.graph( "temperaturDay.png -s 'now - 1 day' -e 'now' DEF:temp0=temperature.rrd:temp1:AVERAGE  LINE2:temp0#00FF00:Innen   DEF:temp1=temperature.rrd:temp0:AVERAGE   LINE2:temp1#0000FF:Aussen")
 
 
