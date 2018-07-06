@@ -1,0 +1,37 @@
+sudo nano /etc/modules
+
+An das Ende der Datei werden diese beiden Zeilen hinzugefügt:
+i2c-bcm2708
+i2c-dev
+
+sudo nano /etc/modprobe.d/raspi-blacklist.conf
+#blacklist spi-bcm2708
+#blacklist i2c-bcm2708
+
+sudo raspi-config
+interface options i2c aktivieren
+
+sudo reboot
+
+sudo apt-get install python-smbus i2c-tools
+
+i2cdetect -y 1
+sollte unter 77 etwas anzeigen:
+pi@raspberrypi ~ $ i2cdetect -y 1
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00:          -- -- -- -- -- -- -- -- -- -- -- -- --
+10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+70: -- -- -- -- -- -- -- 77
+
+git clone https://github.com/adafruit/Adafruit-Raspberry-Pi-Python-Code.git
+cd Adafruit-Raspberry-Pi-Python-Code/
+git checkout 9ff733d59242a02f7ccd0222001ce80f6090a978 
+cd Adafruit_BMP085
+
+sudo python Adafruit_BMP085_example.py
+
