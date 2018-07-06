@@ -1,3 +1,5 @@
+https://tutorials-raspberrypi.de/raspberry-pi-und-i2c-luftdrucksensor-bmp180/
+
 sudo nano /etc/modules
 
 An das Ende der Datei werden diese beiden Zeilen hinzugefügt:
