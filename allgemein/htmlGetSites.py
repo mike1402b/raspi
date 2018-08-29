@@ -11,3 +11,7 @@ print "------------------------------------------"
 page = urllib.urlopen("http://t7.azurewebsites.net/TL/TLV").read()
 print page;
 print "------------------------------------------"
+
+page = urllib.urlopen("http://t3.azurewebsites.net/TL/TLV").read()
+print page;
+print "------------------------------------------"
