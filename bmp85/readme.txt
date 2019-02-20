@@ -31,3 +31,7 @@ sudo reboot
 */5  * * * * $HOME/raspi/bmp85/bmp85.py > $HOME/log/bmp85.log 2>&1
 */15 * * * * $HOME/raspi/pipool/tGraph.sh > $HOME/log/tGraph.log 2>&1
 */10 * * * * $HOME/raspi/allgemein/htmlGetSites.py
+
+7) ./wwwInit.sh #kopiert index.html in apache und gibt rechte
+8) ./Graph.sh #erzeugt Graphen und kopiert sie ins ApacheDir /var/www/html/
+9) pruefen anzeige www seite
