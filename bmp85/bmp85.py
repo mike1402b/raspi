@@ -36,4 +36,11 @@ print "Temperature: %.2f C" % temp
 print "Pressure:    %.2f hPa" % pressureHPa
 print "Altitude:    %.2f" % altitude
 
-data = 'N:'+temp+":"+pressureHPa+":"+altitude
+data = 'N:'+str(temp)+":"+str(pressureHPa)+":"+str(altitude)
+print "adding to rrd database: "+data
+
+# insert data into round-robin-database (__file__ ist das aktuelle file (dieses script))
+#rddtool.update(file,stringDaten)
+rrdtool.update(
+  "%s/temperature.rrd" % (os.path.dirname(os.path.abspath(__file__))),
+  data)
