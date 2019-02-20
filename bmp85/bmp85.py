@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
+import re, os, rrdtool, time
 from Adafruit_BMP085 import BMP085
+
 
 # ===========================================================================
 # Example Code
@@ -42,5 +44,5 @@ print "adding to rrd database: "+data
 # insert data into round-robin-database (__file__ ist das aktuelle file (dieses script))
 #rddtool.update(file,stringDaten)
 rrdtool.update(
-  "%s/temperature.rrd" % (os.path.dirname(os.path.abspath(__file__))),
+  "%s/bmp.rrd" % (os.path.dirname(os.path.abspath(__file__))),
   data)

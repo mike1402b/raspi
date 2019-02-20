@@ -5,7 +5,7 @@ echo "Erzeuge rrd Datenbank fuer 3 Werte (Temp, Luftdruck und Höhe), 100 Tage a
 #RRA RoundRobinArchive alle 9600 Zeilen (pro Tag 96 Zeilen (=24*4)
 # 100 Jahre aufbewahrung min, max, AVG
 
-rrdtool create temp.rrd --step 900 \
+rrdtool create bmp.rrd --step 900 \
 DS:t0:GAUGE:1200:-50:200 \
 DS:t1:GAUGE:1200:-50:200 \
 DS:t2:GAUGE:1200:-50:200 \
