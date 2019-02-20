@@ -40,7 +40,8 @@ for path in pathes:
   data += sensorValue
   time.sleep(1)
 
-# insert data into round-robin-database
+# insert data into round-robin-database (__file__ ist das aktuelle file (dieses script))
+#rddtool.update(file,stringDaten)
 rrdtool.update(
   "%s/temperature.rrd" % (os.path.dirname(os.path.abspath(__file__))),
   data)
