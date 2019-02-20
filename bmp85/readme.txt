@@ -1,6 +1,20 @@
 1) git clone ...
 2) ./install.sh #installiert notwendige software
-3) i2cdetect -y 1 #sollte unter 77 etwas anzeigen:
+3a) i2c initialisieren
+sudo nano /etc/modules
+An das Ende der Datei werden diese beiden Zeilen hinzugefügt:
+i2c-bcm2708
+i2c-dev
+
+sudo nano /etc/modprobe.d/raspi-blacklist.conf
+#blacklist spi-bcm2708
+#blacklist i2c-bcm2708
+
+sudo raspi-config
+interface options i2c aktivieren
+sudo reboot
+
+3b) i2cdetect -y 1 #sollte unter 77 etwas anzeigen:
      0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
 00:          -- -- -- -- -- -- -- -- -- -- -- -- --
 10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
