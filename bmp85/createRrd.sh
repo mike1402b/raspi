@@ -7,8 +7,8 @@ echo "Erzeuge rrd Datenbank fuer 3 Werte (Temp, Luftdruck und Höhe), 100 Tage a
 
 rrdtool create bmp.rrd --step 900 \
 DS:t0:GAUGE:1200:-50:200 \
-DS:t1:GAUGE:1200:-50:200 \
-DS:t2:GAUGE:1200:-50:200 \
+DS:t1:GAUGE:1200:-1:2200 \
+DS:t2:GAUGE:1200:-1:9900 \
 RRA:AVERAGE:0.5:1:9600 \
 RRA:MIN:0.5:96:36000 \
 RRA:MAX:0.5:96:36000 \
