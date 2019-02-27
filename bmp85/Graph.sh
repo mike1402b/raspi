@@ -1,3 +1,5 @@
+cd ~/raspi/bmp85
+
 rrdtool graph Day.png  -s 'now - 1 day' -e 'now' \
   DEF:t2=bmp.rrd:t1:AVERAGE \
   LINE2:t2#FF0000:Luftdruck 
