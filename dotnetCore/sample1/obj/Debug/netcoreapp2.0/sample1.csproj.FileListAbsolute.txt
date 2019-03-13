@@ -1,0 +1,10 @@
+C:\Users\mhe\source\repos\consoleCore\sample1\bin\Debug\netcoreapp2.0\sample1.deps.json
+C:\Users\mhe\source\repos\consoleCore\sample1\bin\Debug\netcoreapp2.0\sample1.runtimeconfig.json
+C:\Users\mhe\source\repos\consoleCore\sample1\bin\Debug\netcoreapp2.0\sample1.runtimeconfig.dev.json
+C:\Users\mhe\source\repos\consoleCore\sample1\bin\Debug\netcoreapp2.0\sample1.dll
+C:\Users\mhe\source\repos\consoleCore\sample1\bin\Debug\netcoreapp2.0\sample1.pdb
+C:\Users\mhe\source\repos\consoleCore\sample1\obj\Debug\netcoreapp2.0\sample1.csproj.CoreCompileInputs.cache
+C:\Users\mhe\source\repos\consoleCore\sample1\obj\Debug\netcoreapp2.0\sample1.AssemblyInfoInputs.cache
+C:\Users\mhe\source\repos\consoleCore\sample1\obj\Debug\netcoreapp2.0\sample1.AssemblyInfo.cs
+C:\Users\mhe\source\repos\consoleCore\sample1\obj\Debug\netcoreapp2.0\sample1.dll
+C:\Users\mhe\source\repos\consoleCore\sample1\obj\Debug\netcoreapp2.0\sample1.pdb
