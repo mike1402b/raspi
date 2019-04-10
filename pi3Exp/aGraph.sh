@@ -1,12 +1,12 @@
 
 rrdtool graph aDay.png  -s 'now - 1 day' -e 'now' \
-  DEF:A0=solar.rrd:A0:AVERAGE \
-  LINE2:A0#00FF00:Avg
+  DEF:t0=solar.rrd:A0:AVERAGE \
+  LINE2:t0#00FF00:Avg
 cp aDay.png /var/www/html/
 
 
 rrdtool graph aWeek.png  -s 'now - 1 week' -e 'now' \
-  DEF:A0=solar.rrd:A0:MIN \
+  DEF:t0=solar.rrd:A0:MIN \
   LINE1:t0#0000FF:Min \
   DEF:t1=solar.rrd:A0:AVERAGE \
   LINE2:t1#00FF00:Avg \
@@ -16,7 +16,7 @@ cp aWeek.png /var/www/html/
 
 
 rrdtool graph aMonth.png  -s 'now - 1 month' -e 'now' \
-  DEF:A0=solar.rrd:A0:MIN \
+  DEF:t0=solar.rrd:A0:MIN \
   LINE1:t0#0000FF:Min \
   DEF:A1=solar.rrd:A0:AVERAGE \
   LINE2:t1#00FF00:Avg \
