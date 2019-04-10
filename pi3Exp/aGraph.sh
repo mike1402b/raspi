@@ -1,7 +1,7 @@
 
 rrdtool graph aDay.png  -s 'now - 1 day' -e 'now' \
   DEF:A0=solar.rrd:A0:AVERAGE \
-  LINE2:temp0#00FF00:Avg
+  LINE2:A0#00FF00:Avg
 cp aDay.png /var/www/html/
 
 
