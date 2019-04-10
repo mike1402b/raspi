@@ -18,7 +18,7 @@ cp aWeek.png /var/www/html/
 rrdtool graph aMonth.png  -s 'now - 1 month' -e 'now' \
   DEF:t0=solar.rrd:A0:MIN \
   LINE1:t0#0000FF:Min \
-  DEF:A1=solar.rrd:A0:AVERAGE \
+  DEF:t1=solar.rrd:A0:AVERAGE \
   LINE2:t1#00FF00:Avg \
   DEF:t2=solar.rrd:A0:MAX \
   LINE2:t2#FF0000:Max
