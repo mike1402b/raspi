@@ -1,3 +1,4 @@
+cd ~/raspi/pi3Exp
 
 rrdtool graph aDay.png  -s 'now - 1 day' -e 'now' \
   DEF:t0=solar.rrd:A0:AVERAGE \
