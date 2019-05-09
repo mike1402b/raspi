@@ -8,3 +8,13 @@ C:\Users\mhe\source\repos\consoleCore\sample1\obj\Debug\netcoreapp2.0\sample1.As
 C:\Users\mhe\source\repos\consoleCore\sample1\obj\Debug\netcoreapp2.0\sample1.AssemblyInfo.cs
 C:\Users\mhe\source\repos\consoleCore\sample1\obj\Debug\netcoreapp2.0\sample1.dll
 C:\Users\mhe\source\repos\consoleCore\sample1\obj\Debug\netcoreapp2.0\sample1.pdb
+D:\z\raspi\dotnetCore\sample1\bin\Debug\netcoreapp2.0\sample1.deps.json
+D:\z\raspi\dotnetCore\sample1\bin\Debug\netcoreapp2.0\sample1.runtimeconfig.json
+D:\z\raspi\dotnetCore\sample1\bin\Debug\netcoreapp2.0\sample1.runtimeconfig.dev.json
+D:\z\raspi\dotnetCore\sample1\bin\Debug\netcoreapp2.0\sample1.dll
+D:\z\raspi\dotnetCore\sample1\bin\Debug\netcoreapp2.0\sample1.pdb
+D:\z\raspi\dotnetCore\sample1\obj\Debug\netcoreapp2.0\sample1.csproj.CoreCompileInputs.cache
+D:\z\raspi\dotnetCore\sample1\obj\Debug\netcoreapp2.0\sample1.AssemblyInfoInputs.cache
+D:\z\raspi\dotnetCore\sample1\obj\Debug\netcoreapp2.0\sample1.AssemblyInfo.cs
+D:\z\raspi\dotnetCore\sample1\obj\Debug\netcoreapp2.0\sample1.dll
+D:\z\raspi\dotnetCore\sample1\obj\Debug\netcoreapp2.0\sample1.pdb
