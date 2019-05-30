@@ -18,6 +18,10 @@ int r09 = 9;
 int count =0;
 bool ledHigh=true;
 
+int serInByte=-1;
+int serBuf[3];
+const byte analogPins[] = { A0, A1, A2, A3, A4, A5, A6, A7 };
+
 // the setup routine runs once when you press reset:
 void setup() 
 {
@@ -26,12 +30,63 @@ void setup()
   pinMode(r11, OUTPUT); 
   pinMode(r10, OUTPUT); 
   pinMode(r09, OUTPUT); 
+  SetPins(true);
   // initialize serial communication at 9600 bits per second:
   Serial.begin(9600);
+  Serial.println("Ready ! Type in");
 }
 
 // the loop routine runs over and over again forever:
-void loop() {
+void loop() 
+{
+  
+  serInByte=Serial.read(); //reads after return
+  if (0<serInByte)
+  {
+    serBuf[0]=serBuf[1];
+    serBuf[1]=serBuf[2];
+    serBuf[2]=serBuf[3];
+    serBuf[3]=serInByte;
+    if (10==serBuf[3])
+    {
+      printBuf();
+
+      byte pinNr=byte((serBuf[1]-49)*10+serBuf[2]-49);
+
+      if (66==serBuf[0]) //A...Analog
+      {
+          Serial.print("Analog PinNr.: ");
+          int analogPin=analogPins[pinNr];
+          Serial.print(analogPin);
+          Serial.print(" Analog Value: ");
+          int analogValue = analogRead(analogPin);
+          Serial.println(analogValue);
+      }
+      else if (69==serBuf[0]) //D ... Digital
+      {
+          Serial.print("Digital pinNr:");
+
+          Serial.print(pinNr);
+          
+          int val=digitalRead(pinNr);
+          Serial.print(" value:");
+          Serial.println(val);
+          digitalWrite(pinNr,!val);
+          //SetPins(!val);
+      }
+      else
+      {
+          Serial.print("commands: A01...A08, D09..D12 not found:");
+          Serial.println(serBuf[0]);
+      }
+
+    }
+
+  }
+
+
+  /*
+  
   // read the input on analog pin 0:
   int sensorValue = analogRead(A0);
   double volt=sensorValue*0.0495; //ca 50/1023
@@ -54,6 +109,20 @@ void loop() {
     ledHigh = !ledHigh;
   }
   delay(500);
+  */
+}
+
+
+void printBuf()
+{
+    Serial.print("Buffer: ");
+    Serial.print(serBuf[0]);
+    Serial.print(" ");
+    Serial.print(serBuf[1]);
+    Serial.print(" ");
+    Serial.print(serBuf[2]);
+    Serial.print(" ");
+    Serial.println(serBuf[3]);
 }
 
 void SetPins(bool on)

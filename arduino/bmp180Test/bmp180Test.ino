@@ -1,4 +1,4 @@
-#include <Wire.h>
+ #include <Wire.h>
 #include <SFE_BMP180.h>
 
 SFE_BMP180 bmp180;
