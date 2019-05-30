@@ -2,17 +2,17 @@
 
 import re, os, serial, time, rrdtool
 
-print("try open serial")
+print "try open serial... ",
  
 s = serial.Serial('/dev/ttyUSB0', 9600) # Namen ggf. anpassen
 s.isOpen()
 
-print("wait 1sec")
+print " wait 1sec... ",
 time.sleep(1) # der Arduino resettet nach einer Seriellen Verbindung, daher muss kurz gewartet werden
  
 buf =""
 data=""
-print("read")
+print " read... ",
 
 while data=="":
   	response = s.readline()
@@ -21,11 +21,11 @@ while data=="":
   	#print buf
 	start=buf.find('>')
 	if 0<start:
-		ende=buf.find('<')
+		ende=buf.find('<',start)
 		if 0<ende:
 			buf = buf[start+1:ende]
 			data = buf
-			print("------- found:" + buf)
+			print "------- found:" + buf,
 
 print "closing serial"	
 s.close()
