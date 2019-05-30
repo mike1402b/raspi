@@ -20,7 +20,7 @@ bool ledHigh=true;
 
 int serInByte=-1;
 int serBuf[3];
-const byte analogPins[] = { A0, A1, A2, A3, A4, A5, A6, A7 };
+const byte analogPins[] = { A0, A1, A2, A3, A4, A5, A6, A7 }; //A0=14 beim Uno, A1=15
 
 // the setup routine runs once when you press reset:
 void setup() 
@@ -43,14 +43,47 @@ void loop()
   serInByte=Serial.read(); //reads after return
   if (0<serInByte)
   {
+    ShiftBuf();
+    if (10==serBuf[3])
+    {
+      PrintBuf(); //AscII Code der einzelnen Zeichen
+      CheckBuf(); //Befehlsausführung (Analog Read oder Digital out)
+      Serial.println(); //Leerzeile
+    }
+
+  }
+
+  //delay(1); //kein delay, verursacht Probleme beim serial Read
+
+  BlinkLed();
+
+}
+
+void BlinkLed()
+{
+  count = count +1;
+  if (count>32000)
+  {
+    count=0;
+    
+    int ledValue=digitalRead(led);
+    digitalWrite(led, !ledValue);
+    //Serial.print("Led:");
+    //Serial.println(!ledValue);
+    
+  }
+}
+
+void ShiftBuf()
+{
     serBuf[0]=serBuf[1];
     serBuf[1]=serBuf[2];
     serBuf[2]=serBuf[3];
     serBuf[3]=serInByte;
-    if (10==serBuf[3])
-    {
-      printBuf();
+}
 
+void CheckBuf()
+{
       byte pinNr=byte((serBuf[1]-49)*10+serBuf[2]-49);
 
       if (66==serBuf[0]) //A...Analog
@@ -58,16 +91,30 @@ void loop()
           Serial.print("Analog PinNr.: ");
           int analogPin=analogPins[pinNr];
           Serial.print(analogPin);
-          Serial.print(" Analog Value: ");
+          Serial.print("  Value: ");
           int analogValue = analogRead(analogPin);
-          Serial.println(analogValue);
+          Serial.print(analogValue);
+          double volt=analogValue*0.0495; //ca 50/1023 5V=1023, Spannungsteiler=1:10 (100kOhm/1000kOhm)
+          Serial.print(" Volt:");
+          Serial.println(volt);
+
+          /* Old AnalogRead Format (Channelnr)
+          Serial.print(">A0:");
+          Serial.print(analogValue);
+          Serial.print("< (");
+          Serial.print(volt);
+          Serial.print(" ) ledHigh:");
+          Serial.print(ledHigh);
+          Serial.print(" count:");
+          Serial.print(count);
+          Serial.println();
+          */
+          
       }
       else if (69==serBuf[0]) //D ... Digital
       {
           Serial.print("Digital pinNr:");
-
           Serial.print(pinNr);
-          
           int val=digitalRead(pinNr);
           Serial.print(" value:");
           Serial.println(val);
@@ -79,41 +126,9 @@ void loop()
           Serial.print("commands: A01...A08, D09..D12 not found:");
           Serial.println(serBuf[0]);
       }
-
-    }
-
-  }
-
-
-  /*
-  
-  // read the input on analog pin 0:
-  int sensorValue = analogRead(A0);
-  double volt=sensorValue*0.0495; //ca 50/1023
-  // print out the value you read:
-  Serial.print(">A0:");
-  Serial.print(sensorValue);
-  Serial.print("< (");
-  Serial.print(volt);
-  Serial.print(" ) ledHigh:");
-  Serial.print(ledHigh);
-  Serial.print(" count:");
-  Serial.print(count);
-  Serial.println();
-  delay(1);        // delay in between reads for stability
-  count = count +1;
-  if (count>10)
-  {
-    count=0;
-    SetPins(ledHigh);
-    ledHigh = !ledHigh;
-  }
-  delay(500);
-  */
 }
 
-
-void printBuf()
+void PrintBuf()
 {
     Serial.print("Buffer: ");
     Serial.print(serBuf[0]);
