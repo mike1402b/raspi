@@ -1,0 +1,4 @@
+GND-A0: 100kOhm
+A0-Messpunkt: 1000Kohm
+
+1/10
