@@ -28,7 +28,8 @@ int blinkCount=0;
 int eepromDumpNewLineCounter=0; //EEprom NewLineCounter
 int eepromAdr=1; // die ersten 2 Bytes sind für den Adresszähler reserviert, vor erstem Schreiben wird der Zähler erhöht
 byte low,hi;
-
+int eepromLastMinute=-1; // Minute, wann das Eeprom zuletzt geschrieben wurde
+int eepromEveryMinute=1; //wieviel Minuten Abstand
 
 void loop() {
 
@@ -50,7 +51,7 @@ void setup()
   pinMode(led, OUTPUT);  
   digitalWrite(led, HIGH);
 
-  setTime(15,30,0,31,05,2019);
+  setTime(15,29,0,31,05,2019);
 
   // ---------- BMP ------------------
   Serial.println("Init BMP180 ...");
@@ -69,6 +70,7 @@ void setup()
   eepromAdr = low +hi*256;
   Serial.print("EEpromAdr:"  );
   Serial.println(eepromAdr);
+  eepromLastMinute=minute();
 
 }
 
@@ -87,6 +89,7 @@ void ReadBmp(int maxCounter)
 
   if (status != 0) 
   {
+    delay(100); //Delay, sonst falsche Luftdruck messwerte
     status = bmp180.getTemperature(T);
 
     if (status != 0) {
@@ -172,9 +175,14 @@ void PrintValueEEprom(int adr)
 
 void WriteEEProm(byte val)
 {
-    
-    int rest=second() % 10;  
-    if (rest!=0) return; //nur alle 10 secunden speichern
+  /*
+    if (0!=second()) return; //nur zur vollen Minute
+    int rest=minute() % 5;  //nur alle x min Speichern
+    if (rest!=0) return; 
+    */
+    int diff=abs(minute()-eepromLastMinute);
+    if (diff<eepromEveryMinute) return;
+    eepromLastMinute=minute();
     
     eepromAdr=eepromAdr+1; //niemals drüberschreiben
     EEPROM.write(eepromAdr, val);
