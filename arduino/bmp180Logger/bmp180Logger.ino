@@ -1,5 +1,6 @@
 #include <EEPROM.h>
 #include <Wire.h>
+#include <TimeLib.h>
 #include <SFE_BMP180.h>
 
 /*
@@ -13,12 +14,18 @@
  * bei Programmstart erhöhe Zähler um 1 und schreibe aktuelles Datum und Uhrzeit rein (von Serieller lesen)
  */
 
+bool debug=false;
+
 SFE_BMP180 bmp180;
 float alt = 400; // Altitude of current location in meters
 int DruckNullPunkt=850;
 
 int led = 13; // Pin 13 has an LED connected on most Arduino boards.
 int blinkCount=0;
+
+
+int newLineCount=0; //Print Alive Counter
+int valCounter=0; //EEprom NewLineCounter
 
 int eepromAdr=1; // die ersten 2 Bytes sind für den Adresszähler reserviert, vor erstem Schreiben wird der Zähler erhöht
 byte low,hi;
@@ -29,12 +36,10 @@ void setup()
   pinMode(led, OUTPUT);  
   digitalWrite(led, HIGH);
 
-  low = EEPROM.read(0);
-  hi = EEPROM.read(1);
-  eepromAdr = low +hi*256;
-  Serial.print("EEpromAdr:"  );
-  Serial.println(eepromAdr);
-  
+  setTime(15,30,0,31,05,2019);
+
+
+  // ---------- BMP ------------------
   Serial.println("Init BMP180 ...");
   bool success = bmp180.begin();
   if (success) {
@@ -44,41 +49,31 @@ void setup()
     Serial.println("BMP180 init failure !");
   }
 
-  
+/*
+    //---------- EEPROM ---------------
+  low = EEPROM.read(0);
+  hi = EEPROM.read(1);
+  eepromAdr = low +hi*256;
+  Serial.print("EEpromAdr:"  );
+  Serial.println(eepromAdr);
+
+  */
 }
 
 void loop() {
 
   BlinkLed();
 
+/*
   int serInByte=Serial.read();
   if (serInByte>0)
   {
-    Serial.println();
-    Serial.print("Eeprom Länge:");
-    Serial.print(EEPROM.length());
-    Serial.println(" ----------------------------------------------");
-    int valCounter=0;
-    for (int i=0; i<=EEPROM.length();i++)
-    {
-      int valEEprom=EEPROM.read(i);
-      valEEprom=valEEprom+DruckNullPunkt;
-      Serial.print(valEEprom);
-      Serial.print(" ");
-      valCounter=valCounter+1;
-      if (valCounter>=24)
-      {
-        valCounter=0;
-        Serial.println();
-      }
-    }
-    Serial.println();
-    Serial.println(" ----------------------------------------------");
-    Serial.println();
+    DumpEEprom();
   }
-
+*/
   ReadBmp();
 
+  delay(1000);
 }
 
 void ReadBmp()
@@ -105,20 +100,130 @@ void ReadBmp()
           seaLevelPressure = bmp180.sealevel(P, alt);
           byte preasureDiff=(byte)(seaLevelPressure-DruckNullPunkt);
           WriteEEProm(preasureDiff);
-          
-          Serial.print("Pressure at sea level: ");
+
+          SerPrintTime();
+          Serial.print("P=");
           Serial.print(seaLevelPressure);
-          Serial.print(" hPa, Temperature: ");
+          Serial.print("T=");
           Serial.print(T);
+          /*
           Serial.print(" °C Diff:");
           Serial.print(preasureDiff);
           Serial.print(" eepromAdr:");
           Serial.print(eepromAdr);
+          */
           Serial.println();
         }
       }
     }
   }
+}
+
+void ReadBmp2()
+{
+  char status;
+  double T, P, seaLevelPressure;
+  bool success = false;
+  
+  status = bmp180.startTemperature();
+
+  if (status != 0) 
+  {
+    
+    status = bmp180.getTemperature(T);
+
+    if (status != 0) {
+      status = bmp180.startPressure(3);
+
+      if (status != 0) {
+        delay(status);
+        status = bmp180.getPressure(P, T);
+
+        if (status != 0) {
+          seaLevelPressure = bmp180.sealevel(P, alt);
+          byte preasureDiff=(byte)(seaLevelPressure-DruckNullPunkt);
+          //WriteEEProm(preasureDiff);
+
+/* BAckspace doesnt work
+          char bs=8;
+          for (int i=0;i<10;i++)
+            Serial.print(bs);
+*/
+
+
+          
+          Serial.print(P,0); //wert, nachkommastellen
+          Serial.print("/");
+          Serial.print(T,0);
+
+          if (debug)
+          {
+            Serial.print(" Diff");
+            Serial.print(preasureDiff);
+            Serial.print(" eepromAdr:");
+            Serial.print(eepromAdr);
+          }
+          Serial.print(" ");
+          Serial.println();
+          /*
+          newLineCount=newLineCount+1;
+          if (newLineCount>=10) //max Einträge -1, da bei 0 zu zählen 
+          {
+            newLineCount=0;
+            Serial.println();
+          }
+          */
+        }
+      }
+    }
+  }
+}
+
+
+void SerPrintTime()
+{
+    Serial.print(hour());
+    Serial.print(":");
+    Serial.print(minute());
+    Serial.print(":");
+    Serial.print(second());
+    Serial.print(" ");
+}
+
+//gibt EEprom vom aktuellen Adresszähler rückwärts aus (neueste Werte zuerst)
+void DumpEEprom()
+{
+    Serial.println();
+    Serial.print("Eeprom Länge:");
+    Serial.print(EEPROM.length());
+    Serial.println(" ----------------------------------------------");
+    
+    for (int i=eepromAdr; i>1;i--) //vom aktuellen Zähler rückwärts runter zu 0
+    {
+      PrintValueEEprom(i);
+    }
+    int eepromLength=EEPROM.length();
+    for (int i=eepromLength; i>eepromAdr;i--) //vom oberen Ende des Eeproms rückwärts zum Zähler
+    {
+      PrintValueEEprom(i);
+    }
+    Serial.println();
+    Serial.println(" ----------------------------------------------");
+    Serial.println();
+}
+
+void PrintValueEEprom(int adr)
+{
+      int valEEprom=EEPROM.read(adr);
+      valEEprom=valEEprom+DruckNullPunkt;
+      Serial.print(valEEprom);
+      Serial.print(" ");
+      valCounter=valCounter+1;
+      if (valCounter>=24)
+      {
+        valCounter=0;
+        Serial.println();
+      }
 }
 
 void WriteEEProm(byte val)
