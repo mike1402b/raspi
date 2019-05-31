@@ -19,16 +19,30 @@ bool debug=false;
 SFE_BMP180 bmp180;
 float alt = 400; // Altitude of current location in meters
 int DruckNullPunkt=850;
+int bmpReadCounter=0; //alle x Schleifendurchläufe lesen
 
 int led = 13; // Pin 13 has an LED connected on most Arduino boards.
 int blinkCount=0;
 
-
-int newLineCount=0; //Print Alive Counter
-int valCounter=0; //EEprom NewLineCounter
-
+//----------- EEprom ----------
+int eepromDumpNewLineCounter=0; //EEprom NewLineCounter
 int eepromAdr=1; // die ersten 2 Bytes sind für den Adresszähler reserviert, vor erstem Schreiben wird der Zähler erhöht
 byte low,hi;
+
+
+void loop() {
+
+  BlinkLed(0);
+
+  int serInByte=Serial.read();
+  if (serInByte>0) DumpEEprom();
+
+  ReadBmp(5);
+
+  SerPrintTime();
+  Serial.println();
+  delay(10);
+}
 
 void setup() 
 {
@@ -37,7 +51,6 @@ void setup()
   digitalWrite(led, HIGH);
 
   setTime(15,30,0,31,05,2019);
-
 
   // ---------- BMP ------------------
   Serial.println("Init BMP180 ...");
@@ -49,36 +62,24 @@ void setup()
     Serial.println("BMP180 init failure !");
   }
 
-/*
-    //---------- EEPROM ---------------
+
+  //---------- EEPROM ---------------
   low = EEPROM.read(0);
   hi = EEPROM.read(1);
   eepromAdr = low +hi*256;
   Serial.print("EEpromAdr:"  );
   Serial.println(eepromAdr);
 
-  */
 }
 
-void loop() {
-
-  BlinkLed();
-
-/*
-  int serInByte=Serial.read();
-  if (serInByte>0)
-  {
-    DumpEEprom();
-  }
-*/
-  ReadBmp();
-
-  delay(1000);
-}
-
-void ReadBmp()
+void ReadBmp(int maxCounter)
 {
-    char status;
+
+  bmpReadCounter=bmpReadCounter+1;
+  if (bmpReadCounter<maxCounter) return;
+  bmpReadCounter=0;
+  
+  char status;
   double T, P, seaLevelPressure;
   bool success = false;
   
@@ -102,77 +103,11 @@ void ReadBmp()
           WriteEEProm(preasureDiff);
 
           SerPrintTime();
-          Serial.print("P=");
           Serial.print(seaLevelPressure);
-          Serial.print("T=");
-          Serial.print(T);
-          /*
-          Serial.print(" °C Diff:");
-          Serial.print(preasureDiff);
-          Serial.print(" eepromAdr:");
-          Serial.print(eepromAdr);
-          */
-          Serial.println();
-        }
-      }
-    }
-  }
-}
-
-void ReadBmp2()
-{
-  char status;
-  double T, P, seaLevelPressure;
-  bool success = false;
-  
-  status = bmp180.startTemperature();
-
-  if (status != 0) 
-  {
-    
-    status = bmp180.getTemperature(T);
-
-    if (status != 0) {
-      status = bmp180.startPressure(3);
-
-      if (status != 0) {
-        delay(status);
-        status = bmp180.getPressure(P, T);
-
-        if (status != 0) {
-          seaLevelPressure = bmp180.sealevel(P, alt);
-          byte preasureDiff=(byte)(seaLevelPressure-DruckNullPunkt);
-          //WriteEEProm(preasureDiff);
-
-/* BAckspace doesnt work
-          char bs=8;
-          for (int i=0;i<10;i++)
-            Serial.print(bs);
-*/
-
-
-          
-          Serial.print(P,0); //wert, nachkommastellen
-          Serial.print("/");
-          Serial.print(T,0);
-
-          if (debug)
-          {
-            Serial.print(" Diff");
-            Serial.print(preasureDiff);
-            Serial.print(" eepromAdr:");
-            Serial.print(eepromAdr);
-          }
           Serial.print(" ");
+          Serial.print(T);
+
           Serial.println();
-          /*
-          newLineCount=newLineCount+1;
-          if (newLineCount>=10) //max Einträge -1, da bei 0 zu zählen 
-          {
-            newLineCount=0;
-            Serial.println();
-          }
-          */
         }
       }
     }
@@ -182,6 +117,12 @@ void ReadBmp2()
 
 void SerPrintTime()
 {
+    Serial.print(year());
+    Serial.print(".");
+    Serial.print(month());
+    Serial.print(".");
+    Serial.print(day());
+    Serial.print(" ");
     Serial.print(hour());
     Serial.print(":");
     Serial.print(minute());
@@ -190,13 +131,19 @@ void SerPrintTime()
     Serial.print(" ");
 }
 
+//----------------------------------------------- EEPROM -----------------------------------------------
+
 //gibt EEprom vom aktuellen Adresszähler rückwärts aus (neueste Werte zuerst)
 void DumpEEprom()
 {
+    String s=Serial.readString(); //lese restliche Serielle EIngabe, um nicht auf jedes Zeichen zu reagieren und bei jedem Zeichen zu Dumpen
+  
     Serial.println();
     Serial.print("Eeprom Länge:");
     Serial.print(EEPROM.length());
-    Serial.println(" ----------------------------------------------");
+    Serial.print(" Eingabe:");
+    Serial.print(s);
+    Serial.println("----------------------------------------------");
     
     for (int i=eepromAdr; i>1;i--) //vom aktuellen Zähler rückwärts runter zu 0
     {
@@ -218,16 +165,20 @@ void PrintValueEEprom(int adr)
       valEEprom=valEEprom+DruckNullPunkt;
       Serial.print(valEEprom);
       Serial.print(" ");
-      valCounter=valCounter+1;
-      if (valCounter>=24)
+      eepromDumpNewLineCounter=eepromDumpNewLineCounter+1;
+      if (eepromDumpNewLineCounter>=24)
       {
-        valCounter=0;
+        eepromDumpNewLineCounter=0;
         Serial.println();
       }
 }
 
 void WriteEEProm(byte val)
 {
+    
+    int rest=second() % 10;  
+    if (rest!=0) return; //nur alle 10 secunden speichern
+    
     eepromAdr=eepromAdr+1; //niemals drüberschreiben
     EEPROM.write(eepromAdr, val);
     if (eepromAdr == EEPROM.length()) 
@@ -238,19 +189,26 @@ void WriteEEProm(byte val)
     hi = highByte(eepromAdr);
     EEPROM.write(0, low);
     EEPROM.write(1, hi);
+
+    Serial.print(" wrote to Eprom Value:");
+    Serial.print(val);
+    Serial.print(" eepromAdr:");
+    Serial.print(eepromAdr);
+          
 }
 
-void BlinkLed()
+//----------------------------------------------- LED -----------------------------------------------
+
+void BlinkLed(int maxCounter)
 {
   blinkCount = blinkCount +1;
-  if (blinkCount>0)
-  {
-    blinkCount=0;
-    
-    int ledValue=digitalRead(led);
-    digitalWrite(led, !ledValue);
-    //Serial.print("Led:");
-    //Serial.println(!ledValue);
-    
-  }
+  if (blinkCount<maxCounter) return;
+  
+  blinkCount=0;
+  int ledValue=digitalRead(led);
+  digitalWrite(led, !ledValue);
+  //Serial.print("Led:");
+  //Serial.println(!ledValue);
+  
+
 }
