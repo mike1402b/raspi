@@ -32,15 +32,15 @@ byte low,hi;
 
 void loop() {
 
-  BlinkLed(0);
+  BlinkLed(10);
 
   int serInByte=Serial.read();
   if (serInByte>0) DumpEEprom();
 
-  ReadBmp(5);
+  ReadBmp(100);
 
-  SerPrintTime();
-  Serial.println();
+  //SerPrintTime();
+  //Serial.println();
   delay(10);
 }
 
@@ -87,7 +87,6 @@ void ReadBmp(int maxCounter)
 
   if (status != 0) 
   {
-    delay(2000);
     status = bmp180.getTemperature(T);
 
     if (status != 0) {
@@ -99,14 +98,12 @@ void ReadBmp(int maxCounter)
 
         if (status != 0) {
           seaLevelPressure = bmp180.sealevel(P, alt);
-          byte preasureDiff=(byte)(seaLevelPressure-DruckNullPunkt);
-          WriteEEProm(preasureDiff);
-
           SerPrintTime();
           Serial.print(seaLevelPressure);
           Serial.print(" ");
           Serial.print(T);
-
+          byte preasureDiff=(byte)(seaLevelPressure-DruckNullPunkt);
+          WriteEEProm(preasureDiff);
           Serial.println();
         }
       }
@@ -190,7 +187,7 @@ void WriteEEProm(byte val)
     EEPROM.write(0, low);
     EEPROM.write(1, hi);
 
-    Serial.print(" wrote to Eprom Value:");
+    Serial.print(" --- wrote to Eprom Value:");
     Serial.print(val);
     Serial.print(" eepromAdr:");
     Serial.print(eepromAdr);
