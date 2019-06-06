@@ -93,7 +93,6 @@ void loop() {
 
   PrintEverySecond();
   
-  //Serial.println();
   delay(10);
 }
 
@@ -132,7 +131,7 @@ void PrintEverySecond()
   {
     lastsecond=second();
 
-
+    ReadBmp(0);
     
     if (second() % 2 == 0)
     {
@@ -164,9 +163,11 @@ void PrintEveryMinute()
 void ReadBmp(int maxCounter)
 {
 
+  /*
   bmpReadCounter=bmpReadCounter+1;
   if (bmpReadCounter<maxCounter) return;
   bmpReadCounter=0;
+*/
   
   char status;
   
