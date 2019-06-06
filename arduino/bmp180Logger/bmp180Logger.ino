@@ -131,8 +131,8 @@ void PrintEverySecond()
   {
     lastsecond=second();
 
-    ReadBmp(0);
-    
+    PrintEveryMinute();
+  
     if (second() % 2 == 0)
     {
       Serial.print(" ");
