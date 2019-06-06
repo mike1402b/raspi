@@ -58,21 +58,29 @@
  */
 
 bool debug=false;
+int led = 13; // Pin 13 has an LED connected on most Arduino boards.
+int blinkCount=0;
 
+//---Printing
+int lastsecond=-1;
+int lastminute=-1;
+
+
+//-----BMP------------
 SFE_BMP180 bmp180;
 float alt = 400; // Altitude of current location in meters
 int DruckNullPunkt=850;
 int bmpReadCounter=0; //alle x Schleifendurchläufe lesen
+double T, P, seaLevelPressure;
+byte preasureDiff=0;
 
-int led = 13; // Pin 13 has an LED connected on most Arduino boards.
-int blinkCount=0;
 
 //----------- EEprom ----------
 int eepromDumpNewLineCounter=0; //EEprom NewLineCounter
 int eepromAdr=1; // die ersten 2 Bytes sind für den Adresszähler reserviert, vor erstem Schreiben wird der Zähler erhöht
 byte low,hi;
 int eepromLastMinute=-1; // Minute, wann das Eeprom zuletzt geschrieben wurde
-int eepromEveryMinute=1; //wieviel Minuten Abstand
+int eepromEveryMinute=2; //wieviel Minuten Abstand
 
 void loop() {
 
@@ -83,7 +91,8 @@ void loop() {
 
   ReadBmp(100);
 
-  //SerPrintTime();
+  PrintEverySecond();
+  
   //Serial.println();
   delay(10);
 }
@@ -117,6 +126,41 @@ void setup()
 
 }
 
+void PrintEverySecond()
+{
+  if (second()!=lastsecond) // every Second
+  {
+    lastsecond=second();
+
+
+    
+    if (second() % 2 == 0)
+    {
+      Serial.print(" ");
+      Serial.print(seaLevelPressure,0);
+    }
+    else 
+    {
+      Serial.print(" ");
+      Serial.print(T,0);
+    }
+  }
+}
+
+void PrintEveryMinute()
+{
+  
+  if (minute()!=lastminute) 
+  {
+    lastminute=minute();
+
+    WriteEEProm(preasureDiff);
+    
+    Serial.println();
+    SerPrintTime();
+  }
+}
+
 void ReadBmp(int maxCounter)
 {
 
@@ -125,7 +169,7 @@ void ReadBmp(int maxCounter)
   bmpReadCounter=0;
   
   char status;
-  double T, P, seaLevelPressure;
+  
   bool success = false;
   
   status = bmp180.startTemperature();
@@ -144,13 +188,15 @@ void ReadBmp(int maxCounter)
 
         if (status != 0) {
           seaLevelPressure = bmp180.sealevel(P, alt);
-          SerPrintTime();
-          Serial.print(seaLevelPressure);
+          /*
           Serial.print(" ");
-          Serial.print(T);
-          byte preasureDiff=(byte)(seaLevelPressure-DruckNullPunkt);
-          WriteEEProm(preasureDiff);
-          Serial.println();
+          Serial.print(seaLevelPressure,0);
+          Serial.print(" ");
+          Serial.print(T,0);
+          */
+         
+          preasureDiff=(byte)(seaLevelPressure-DruckNullPunkt);
+
         }
       }
     }
@@ -238,10 +284,12 @@ void WriteEEProm(byte val)
     EEPROM.write(0, low);
     EEPROM.write(1, hi);
 
+    Serial.println();
     Serial.print(" --- wrote to Eprom Value:");
     Serial.print(val);
     Serial.print(" eepromAdr:");
     Serial.print(eepromAdr);
+    Serial.println();
           
 }
 
