@@ -1,7 +1,7 @@
 #include <TimeLib.h>
 
 
-char incoming[15] = {}; //wegen Endzeichen
+
 int led = 13; 
 int lastSecond=-1; 
 
@@ -12,10 +12,25 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
- int i = 0;
+ 
 
    if (Serial.available() > 10) 
    {
+      SetTime();
+   }
+ 
+
+  
+  SerPrintTime();
+  delay(1000);
+}
+
+
+void SetTime()
+{
+      int i = 0;
+    char incoming[15] = {}; //wegen Endzeichen
+    
     //Array of Char leeren
     memset(incoming, 0, sizeof(incoming));
     //Zeit wird geliefert als HHmmssddMMyyyy, z.B. 23120027112012
@@ -24,6 +39,8 @@ void loop() {
       i++;
       delay(3);
     }
+
+    Serial.readString(); //lese eventuelle überreste
      
     //in Zeit umwandeln
     char hr[3] = {};
@@ -49,16 +66,12 @@ void loop() {
     
     setTime(atoi(hr), atoi(min), atoi(sec), 
       atoi(day), atoi(month), atoi(yr));
-    Serial.println("!new Time set");
-    Serial.readString(); //lese eventuelle überreste
-  }
- 
+    
 
-  
-  SerPrintTime();
-  delay(1000);
+    Serial.print("------------------------- new Time set:");
+    SerPrintTime();
+    Serial.println();
 }
-
 
 void SerPrintTime()
 {

@@ -12,49 +12,7 @@
  * EEProm (0)=Low Byte aktueller Zähler
  * EEProm (1)=High Byte aktueller Zähler
  * bei Programmstart erhöhe Zähler um 1 und schreibe aktuelles Datum und Uhrzeit rein (von Serieller lesen)
- 
- Todo:
-  if (Serial.available() > 0) {
-    //Array of Char leeren
-    memset(incoming, 0, sizeof(incoming));
-    //Zeit wird geliefert als HHmmssddMMyyyy, z.B. 23120027112012
-    while (Serial.available() > 0 && i < sizeof(incoming) - 1) {
-      incoming[i] = Serial.read();
-      i++;
-      delay(3);
-    }
-     
-    //in Zeit umwandeln
-    char hr[3] = {};
-    char min[3] = {};
-    char sec[3] = {};
-    char day[3] = {};
-    char month[3] = {};
-    char yr[5] = {};
-    hr[0] = incoming[0];
-    hr[1] = incoming[1];
-    min[0] = incoming[2];
-    min[1] = incoming[3];
-    sec[0] = incoming[4];
-    sec[1] = incoming[5];
-    day[0] = incoming[6];
-    day[1] = incoming[7];
-    month[0] = incoming[8];
-    month[1] = incoming[9];
-    yr[0] = incoming[10];
-    yr[1] = incoming[11];
-    yr[2] = incoming[12];
-    yr[3] = incoming[13];
-    setTime(atoi(hr), atoi(min), atoi(sec), 
-      atoi(day), atoi(month), atoi(yr));
-    Serial.println("!new Time set");
-  }
   
-  //Zeit anzeigen
-  digitalClockDisplay();
-  //1 Sekunde warten
-  delay(1000);
- 
  */
 
 bool debug=false;
@@ -86,8 +44,10 @@ void loop() {
 
   BlinkLed(10);
 
-  int serInByte=Serial.read();
-  if (serInByte>0) DumpEEprom();
+
+
+  int serCount=Serial.available();
+  if (serCount>0) SerCommand(serCount);
 
   ReadBmp(100);
 
@@ -125,6 +85,21 @@ void setup()
 
 }
 
+void SerCommand(int byteCount)
+{
+  Serial.println();
+  Serial.print("-------------- Serielle Eingabe Länge:");
+  Serial.print(byteCount);
+  Serial.println();
+  
+  if (byteCount>10) 
+    SetTime();
+  else
+    DumpEEprom();
+
+  Serial.readString(); //lese eventuelle überreste
+}
+
 void PrintEverySecond()
 {
   if (second()!=lastsecond) // every Second
@@ -159,6 +134,55 @@ void PrintEveryMinute()
     SerPrintTime();
   }
 }
+
+void SetTime()
+{
+      int i = 0;
+    char incoming[15] = {}; //wegen Endzeichen
+    
+    //Array of Char leeren
+    memset(incoming, 0, sizeof(incoming));
+    //Zeit wird geliefert als HHmmssddMMyyyy, z.B. 23120027112012
+    while (Serial.available() > 0 && i < sizeof(incoming) - 1) {
+      incoming[i] = Serial.read();
+      i++;
+      delay(3);
+    }
+
+    Serial.readString(); //lese eventuelle überreste
+     
+    //in Zeit umwandeln
+    char hr[3] = {};
+    char min[3] = {};
+    char sec[3] = {};
+    char day[3] = {};
+    char month[3] = {};
+    char yr[5] = {};
+    hr[0] = incoming[0];
+    hr[1] = incoming[1];
+    min[0] = incoming[2];
+    min[1] = incoming[3];
+    sec[0] = incoming[4];
+    sec[1] = incoming[5];
+    day[0] = incoming[6];
+    day[1] = incoming[7];
+    month[0] = incoming[8];
+    month[1] = incoming[9];
+    yr[0] = incoming[10];
+    yr[1] = incoming[11];
+    yr[2] = incoming[12];
+    yr[3] = incoming[13];
+    
+    setTime(atoi(hr), atoi(min), atoi(sec), 
+      atoi(day), atoi(month), atoi(yr));
+    
+
+    Serial.print("------------------------- new Time set:");
+    SerPrintTime();
+    Serial.println();
+}
+
+
 
 void ReadBmp(int maxCounter)
 {
