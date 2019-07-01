@@ -47,7 +47,7 @@ void loop() {
   Serial.println();
   delay(1);        // delay in between reads for stability
   count = count +1;
-  if (count>10)
+  if (count>5)
   {
     count=0;
     SetPins(ledHigh);

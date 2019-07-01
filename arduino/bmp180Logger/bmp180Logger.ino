@@ -5,6 +5,7 @@
 
 /*
  * LUFTDRUCK MESSUNG mit speicherung im EPROM (Arduino 1024 Bytes)
+ * HHmmssddMMyyyy z.b. 21190001072019
  * niedrigster Luftdruck: 870 hPa (12.10.1979 im Taifun Tip, Guam Nordwestpazifik), stärkster Abfall: in 24h 98hPa 2005 Hurrikan Wilma, 882hPa
  * höchster Luftdruck: 1084hPa in Mongolei, 1060 hPa 1907 in Greifswald Deutschland)
  * => nehme 850 als 0 Punkt und speichere differenz dazu in bytes im EEprom, die letzten 4 (251-254) als Steuercodes, 255 ist meist initialwert, eventuel auch 0 ?
@@ -34,12 +35,27 @@ byte preasureDiff=0;
 
 
 //----------- EEprom ----------
+/*
+ * 0 low
+ * 1 high
+ * 2 sec
+ * 3 min
+ * 4 stunde
+ * 5 tag
+ * 6 monat
+ * 7 jahr
+ * 
+ */
+
+int eepromAdr=8; // die ersten 2 Bytes sind für den Adresszähler reserviert, vor erstem Schreiben wird der Zähler erhöht
 int eepromDumpNewLineCounter=0; //EEprom NewLineCounter
-int eepromAdr=1; // die ersten 2 Bytes sind für den Adresszähler reserviert, vor erstem Schreiben wird der Zähler erhöht
 byte low,hi;
 int eepromLastMinute=-1; // Minute, wann das Eeprom zuletzt geschrieben wurde
 int eepromEveryMinute=2; //wieviel Minuten Abstand
 
+
+
+// ---------------------- loop ------------
 void loop() {
 
   BlinkLed(10);
@@ -56,6 +72,7 @@ void loop() {
   delay(10);
 }
 
+// ---------------------- Setup -------------------------------------------------------------------
 void setup() 
 {
   Serial.begin(9600);
@@ -81,6 +98,16 @@ void setup()
   eepromAdr = low +hi*256;
   Serial.print("EEpromAdr:"  );
   Serial.println(eepromAdr);
+
+  int se = EEPROM.read(2);
+  int mi = EEPROM.read(3);
+  int hr = EEPROM.read(4);
+  int dd = EEPROM.read(5);
+  int mo = EEPROM.read(6);
+  int yy = EEPROM.read(7);
+
+  setTime(hr, mi, se, dd, mo, yy);
+  
   eepromLastMinute=minute();
 
 }
@@ -92,7 +119,7 @@ void SerCommand(int byteCount)
   Serial.print(byteCount);
   Serial.println();
   
-  if (byteCount>10) 
+  if (byteCount>6) 
     SetTime();
   else
     DumpEEprom();
@@ -105,6 +132,7 @@ void PrintEverySecond()
   if (second()!=lastsecond) // every Second
   {
     lastsecond=second();
+    EEPROM.write(2, second());
 
     PrintEveryMinute();
   
@@ -123,16 +151,28 @@ void PrintEverySecond()
 
 void PrintEveryMinute()
 {
+
   
   if (minute()!=lastminute) 
   {
+    
     lastminute=minute();
-
+    WriteTimeToEprom();
     WriteEEProm(preasureDiff);
     
     Serial.println();
     SerPrintTime();
   }
+}
+
+void WriteTimeToEprom()
+{
+    EEPROM.write(2, second()); 
+    EEPROM.write(3, minute());
+    EEPROM.write(4, hour());
+    EEPROM.write(5, day());
+    EEPROM.write(6, month());
+    EEPROM.write(7, year());
 }
 
 void SetTime()
@@ -180,6 +220,8 @@ void SetTime()
     Serial.print("------------------------- new Time set:");
     SerPrintTime();
     Serial.println();
+
+    WriteTimeToEprom();
 }
 
 
