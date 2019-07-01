@@ -5,7 +5,7 @@
 
 /*
  * LUFTDRUCK MESSUNG mit speicherung im EPROM (Arduino 1024 Bytes)
- * HHmmssddMMyyyy z.b. 21190001072019
+ * HHmmssddMMyyyy z.b. 21263001072019
  * niedrigster Luftdruck: 870 hPa (12.10.1979 im Taifun Tip, Guam Nordwestpazifik), stärkster Abfall: in 24h 98hPa 2005 Hurrikan Wilma, 882hPa
  * höchster Luftdruck: 1084hPa in Mongolei, 1060 hPa 1907 in Greifswald Deutschland)
  * => nehme 850 als 0 Punkt und speichere differenz dazu in bytes im EEprom, die letzten 4 (251-254) als Steuercodes, 255 ist meist initialwert, eventuel auch 0 ?
@@ -48,6 +48,7 @@ byte preasureDiff=0;
  */
 
 int eepromAdr=8; // die ersten 2 Bytes sind für den Adresszähler reserviert, vor erstem Schreiben wird der Zähler erhöht
+int eePromAdrMin=8;
 int eepromDumpNewLineCounter=0; //EEprom NewLineCounter
 byte low,hi;
 int eepromLastMinute=-1; // Minute, wann das Eeprom zuletzt geschrieben wurde
@@ -96,6 +97,10 @@ void setup()
   low = EEPROM.read(0);
   hi = EEPROM.read(1);
   eepromAdr = low +hi*256;
+  if (eepromAdr<eePromAdrMin)
+  {
+    eepromAdr=eePromAdrMin;
+  }
   Serial.print("EEpromAdr:"  );
   Serial.println(eepromAdr);
 
@@ -243,7 +248,7 @@ void ReadBmp(int maxCounter)
 
   if (status != 0) 
   {
-    delay(100); //Delay, sonst falsche Luftdruck messwerte
+    delay(200); //Delay, sonst falsche Luftdruck messwerte
     status = bmp180.getTemperature(T);
 
     if (status != 0) {
@@ -344,7 +349,7 @@ void WriteEEProm(byte val)
     EEPROM.write(eepromAdr, val);
     if (eepromAdr == EEPROM.length()) 
     {
-      eepromAdr = 1; //ersten 2 Bytes für den Adresszähler, wird ja erhöt vor dem 1. Mal schreiben
+      eepromAdr = eePromAdrMin; //ersten 2 Bytes für den Adresszähler, wird ja erhöt vor dem 1. Mal schreiben
     }
     low = lowByte(eepromAdr);
     hi = highByte(eepromAdr);
