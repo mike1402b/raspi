@@ -4,7 +4,7 @@
 <title>Schalter</title>
 </head>
 GPIO 24 schalten:
-<form method="get" action="pool.php">
+<form method="get" action="gpio24.php">
 <input type="submit" value="Licht ein" name="Lichtein">
 <input type="submit" value="Licht aus" name="Lichtaus">
 </form>
