@@ -115,3 +115,6 @@ rrdtool graph tYearAll.png  -s 'now - 1 year' -e 'now' -w 400 -h 200 \
   LINE2:t7#8B0000:kisteO 
   
 cp tYearAll.png /var/www/html/
+
+#datum ausgeben für log
+date
