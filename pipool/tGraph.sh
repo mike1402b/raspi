@@ -117,4 +117,4 @@ rrdtool graph tYearAll.png  -s 'now - 1 year' -e 'now' -w 400 -h 200 \
 cp tYearAll.png /var/www/html/
 
 #datum ausgeben für log
-date
+date >/home/pi/log/tGraph2.log
