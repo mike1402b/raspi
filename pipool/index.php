@@ -6,6 +6,7 @@
 		<h1>Temperatur Unterweitersdorf Reitern</h1> 
 		<?php
 			echo date("d.m.Y H:i:s",time());
+			echo shell_exec('uptime -p');
 		?>
 		<h2>letzte 24h</h2>
 		<img src="tDay.png"  alt="Temperatur Unterweitersdorf Reitern letzten 24h">
