@@ -1,4 +1,7 @@
-﻿pfad:
+﻿neue sd karte, rasparian installieren dann
+SetupPiPool.sh ausführen
+
+pfad:
 /sys/bus/w1/devices/
 /sys/bus/w1/devices/28-051670c1a5ff/w1_slave
 
