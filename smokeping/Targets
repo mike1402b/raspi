@@ -1,0 +1,61 @@
+*** Targets ***
+
+probe = FPing
+
+menu = Top
+title = Network Latency Grapher
+remark = Welcome to the SmokePing website of xxx Company. \
+         Here you will learn all about the latency of our network.
+
++ Local
+
+menu = Local
+title = Local Network
+#parents = owner:/Test/James location:/
+
+++ LocalMachine
+
+menu = Local Machine
+title = This host
+host = localhost
+#alerts = someloss
+
+++ gateway1
+host = 192.168.1.1
+
+++ gateway254
+host = 192.168.1.254
+
++liwest
+menu = liwest
+title=liwest nach draussen
+
+++gateway254
+host=192.168.1.254
+
+++ liwest1
+host=10.33.0.1
+
+++liwest2
+host=212.33.35.185
+
+++lilzpr01b-Vlan529_liwest_at
+host=212.33.35.174
+
+++linz1_aco_net
+host=linz1.aco.net
+
+++wien1_aco_net
+host=wien1.aco.net
+
+
++diverse
+menu=diverse
+title=diverse
+
+++katzi_cc_univie_ac_at
+host=131.130.1.80
+
+++www_univie_ac_at
+host=131.130.70.8
+
