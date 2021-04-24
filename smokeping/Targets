@@ -33,29 +33,18 @@ title=liwest nach draussen
 ++gateway254
 host=192.168.1.254
 
-++ liwest1
-host=10.33.0.1
 
 ++liwest2
+title=liwest212.33.35.185
 host=212.33.35.185
 
-++lilzpr01b-Vlan529_liwest_at
+++lilzpr01b-Vlan529_liwest_at 212.33.35.174
+title=lilzpr01b-Vlan529
 host=212.33.35.174
 
-++linz1_aco_net
-host=linz1.aco.net
-
-++wien1_aco_net
-host=wien1.aco.net
-
-
-+diverse
-menu=diverse
-title=diverse
-
-++katzi_cc_univie_ac_at
-host=131.130.1.80
+++linzag
+host=www.linzag-telekom.at
 
 ++www_univie_ac_at
-host=131.130.70.8
+host=www.univie.ac.at
 
