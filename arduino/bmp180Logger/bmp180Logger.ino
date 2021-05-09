@@ -5,7 +5,7 @@
 
 /*
  * LUFTDRUCK MESSUNG mit speicherung im EPROM (Arduino 1024 Bytes)
- * HHmmssddMMyyyy z.b. 21263001072019
+ * HHmmssddMMyyyy z.b. 21553001072019
  * niedrigster Luftdruck: 870 hPa (12.10.1979 im Taifun Tip, Guam Nordwestpazifik), stärkster Abfall: in 24h 98hPa 2005 Hurrikan Wilma, 882hPa
  * höchster Luftdruck: 1084hPa in Mongolei, 1060 hPa 1907 in Greifswald Deutschland)
  * => nehme 850 als 0 Punkt und speichere differenz dazu in bytes im EEprom, die letzten 4 (251-254) als Steuercodes, 255 ist meist initialwert, eventuel auch 0 ?
@@ -52,7 +52,7 @@ int eePromAdrMin=8;
 int eepromDumpNewLineCounter=0; //EEprom NewLineCounter
 byte low,hi;
 int eepromLastMinute=-1; // Minute, wann das Eeprom zuletzt geschrieben wurde
-int eepromEveryMinute=2; //wieviel Minuten Abstand
+int eepromEveryMinute=30; //wieviel Minuten Abstand
 
 
 
