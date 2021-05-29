@@ -41,7 +41,7 @@ for path in pathes:
   data += ':'
   sensorValue = read_sensor(path)
   sensorValueFloat = float(sensorValue)
-  while sensorValueFloat>60.0:
+  while sensorValueFloat>90.0:
     print "wrong value, too high:", sensorValue
     sensorValue = read_sensor(path)
   data += sensorValue

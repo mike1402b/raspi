@@ -1,5 +1,5 @@
 apt update
-apt install xrdp
+#apt install xrdp
 apt install apache2 php libapache2-mod-php -y
 apt install rrdtool
 apt install python-rrdtool

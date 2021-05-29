@@ -1,5 +1,5 @@
 #give pi rights for writing in html
-chown -c pi:root /var/www/html/
+chown -cR pi:pi /var/www/html/
 
 #copy index.html
 cp index.php /var/www/html/
