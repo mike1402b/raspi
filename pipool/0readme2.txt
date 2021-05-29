@@ -1,4 +1,13 @@
-﻿neue sd karte, rasparian installieren dann
+﻿neue sd karte, rasparian (lite) installieren 
+standard pwd: pi raspberry (ACHTUNG Z statt Y wenn falsches Tastaturlayout)
+mit passwd pi ändern
+
+raspi-config:
+ssh, 1Wire aktivieren 
+wlan einstellen
+
+fixe ip in /etc/dhcpcd.config
+ 
 SetupPiPool.sh ausführen
 
 pfad:
