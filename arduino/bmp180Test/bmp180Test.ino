@@ -32,16 +32,17 @@ void setup()
   low = EEPROM.read(0);
   hi = EEPROM.read(1);
   eepromAdr = low +hi*256;
+  /*
   Serial.print("EEpromAdr:"  );
   Serial.println(eepromAdr);
-  
-  Serial.println("Init BMP180 ...");
+  */
+  Serial.println("InitBMP180");
   bool success = bmp180.begin();
   if (success) {
-    Serial.println("BMP180 init success");
+    Serial.println("BMP180initSuccess");
   }
   else {
-    Serial.println("BMP180 init failure !");
+    Serial.println("BMP180initFailure !");
   }
 
   
@@ -84,7 +85,7 @@ void loop() {
 void ReadBmp()
 {
     char status;
-  double T, P, seaLevelPressure;
+  double T, P, seaLevelPressure, preasurePa;
   bool success = false;
   
   status = bmp180.startTemperature();
@@ -106,14 +107,17 @@ void ReadBmp()
           byte preasureDiff=(byte)(seaLevelPressure-DruckNullPunkt);
           WriteEEProm(preasureDiff);
           
-          Serial.print("Pressure at sea level: ");
-          Serial.print(seaLevelPressure);
-          Serial.print(" hPa, Temperature: ");
+          preasurePa=seaLevelPressure/100;
+          Serial.print("PressureAtSeaLevel[Pa]: ");
+          Serial.print(preasurePa);
+          Serial.print(", Temperature[°C]: ");
           Serial.print(T);
-          Serial.print(" °C Diff:");
+          /*
+          Serial.print(" Diff:");
           Serial.print(preasureDiff);
           Serial.print(" eepromAdr:");
           Serial.print(eepromAdr);
+          */
           Serial.println();
         }
       }
