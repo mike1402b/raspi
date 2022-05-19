@@ -11,7 +11,7 @@ long distance;
 long echotime;
 
 unsigned int lowSpeed  = 2000; // max: 16000, delay in ms
-unsigned int highSpeed =  1000;
+unsigned int highSpeed =  800;
 
 void setup()
 {
@@ -30,16 +30,17 @@ void loop()
     unsigned long n = millis() / 500; // 0,5 second
 
     switch(n % 10) {
-        case 0: stopMotor();            break;
+        case 0: rotateRight(highSpeed); break;
         case 1: rotateRight(highSpeed); break;
         case 2: rotateRight(highSpeed); break;
         case 3: rotateRight(highSpeed); break;
         case 4: rotateRight(highSpeed); break;
-        case 5: stopMotor();            break;
+        case 5: rotateLeft(highSpeed);  break;
         case 6: rotateLeft(highSpeed);  break;
         case 7: rotateLeft(highSpeed);  break;
         case 8: rotateLeft(highSpeed);  break;
         case 9: rotateLeft(highSpeed);  break;
+        
     }
 }
 
