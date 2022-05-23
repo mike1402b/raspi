@@ -22,7 +22,7 @@ void loop()
   digitalWrite(TRIGGER, LOW);
   digitalWrite(TRIGGER, HIGH);
   distance = pulseIn(ECHO, HIGH);
-  Serial.println("z:0 A0:" + String(distance / 58) + " A1:0");
+  Serial.println("Distance:" + String(distance / 58));
   delay(50);
 
 }
