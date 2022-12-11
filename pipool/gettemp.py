@@ -23,7 +23,7 @@ def read_sensor(path):
 pathes = (
   "/sys/bus/w1/devices/28-0316362983ff/w1_slave", # raspi direkt
   "/sys/bus/w1/devices/28-0316721a7eff/w1_slave", # pool oben 4
-  "/sys/bus/w1/devices/28-0516718311ff/w1_slave", # pool unten 5
+  "/sys/bus/w1/devices/28-0516718311ff/w1_slave", # pool unten 5 - leider kaputt, liefrt U
   "/sys/bus/w1/devices/28-0316712754ff/w1_slave", # erde tief 6
   "/sys/bus/w1/devices/28-05167120f2ff/w1_slave", # erde oben 7
   "/sys/bus/w1/devices/28-051670c1a5ff/w1_slave", # kiste  unten 1  
@@ -40,7 +40,11 @@ data = 'N'
 for path in pathes:
   data += ':'
   sensorValue = read_sensor(path)
-  sensorValueFloat = float(sensorValue)
+  print (sensorValue)
+  try:
+    sensorValueFloat = float(sensorValue)
+  except:
+    print ("Error converting to float")
   while sensorValueFloat>90.0:
     print "wrong value, too high:", sensorValue
     sensorValue = read_sensor(path)
