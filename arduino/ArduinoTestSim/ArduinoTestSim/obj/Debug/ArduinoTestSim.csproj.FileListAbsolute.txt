@@ -1,0 +1,9 @@
+C:\zz\raspi\arduino\ArduinoTestSim\ArduinoTestSim\bin\Debug\ArduinoTestSim.exe.config
+C:\zz\raspi\arduino\ArduinoTestSim\ArduinoTestSim\bin\Debug\ArduinoTestSim.exe
+C:\zz\raspi\arduino\ArduinoTestSim\ArduinoTestSim\bin\Debug\ArduinoTestSim.pdb
+C:\zz\raspi\arduino\ArduinoTestSim\ArduinoTestSim\obj\Debug\ArduinoTestSim.csprojAssemblyReference.cache
+C:\zz\raspi\arduino\ArduinoTestSim\ArduinoTestSim\obj\Debug\ArduinoTestSim.Properties.Resources.resources
+C:\zz\raspi\arduino\ArduinoTestSim\ArduinoTestSim\obj\Debug\ArduinoTestSim.csproj.GenerateResource.cache
+C:\zz\raspi\arduino\ArduinoTestSim\ArduinoTestSim\obj\Debug\ArduinoTestSim.csproj.CoreCompileInputs.cache
+C:\zz\raspi\arduino\ArduinoTestSim\ArduinoTestSim\obj\Debug\ArduinoTestSim.exe
+C:\zz\raspi\arduino\ArduinoTestSim\ArduinoTestSim\obj\Debug\ArduinoTestSim.pdb
