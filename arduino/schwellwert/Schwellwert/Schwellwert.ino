@@ -19,7 +19,7 @@ void setup() {
   Serial.begin(9600);
   Serial.println();
   Serial.println("------------------------ Schwellwert Beginn ------------------------------");
-  Serial.print("Analog In=A7, SchaltPin=");
+  Serial.print("Analog In=A5 V5 Spannung am Ad Wandler 5, VG=Spoannung gesamt, SchaltPin=");
   Serial.println(ledPin);
   Serial.println("--------------------------------------------------------------------------");
   pinMode(ledPin, OUTPUT); 
@@ -29,8 +29,8 @@ void setup() {
 // the loop routine runs over and over again forever:
 void loop() {
 
-  int sensorValue = analogRead(A7);
-  Serial.print("S=");
+  int sensorValue = analogRead(A5);
+  Serial.print("A5=");
   Serial.print(sensorValue);
   
   double volt5=sensorValue;
@@ -39,12 +39,12 @@ void loop() {
   Serial.print(volt5);
 
   double voltTeiler=volt5*calcTeiler;
-  Serial.print(" VTeiler=");
+  Serial.print(" VG=");
   Serial.print(voltTeiler);
 
-  Serial.print(" R1=");
+  Serial.print(" Ra");
   Serial.print(R1,0); //0 nachkommastellen
-  Serial.print(" R2=");
+  Serial.print(" Rb");
   Serial.print(R2,0);
 
   
@@ -61,5 +61,5 @@ void loop() {
   }
   
 
-  delay(300);        // delay in between reads for stability
+  delay(400);        // delay in between reads for stability
 }
