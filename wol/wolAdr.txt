@@ -1,0 +1,10 @@
+00:23:24:66:0E:F2 lenovo Intel5 mini
+6C:3B:E5:28:26:5B jaurek1
+2C:41:38:97:05:67 jauregg az
+5C:F9:DD:74:CC:0B DellMySw
+00:27:0E:0B:D9:BA hewis 
+00:25:D3:8B:84:E5	heweee
+00:1C:25:B8:6C:DD	hewt61
+DC:9C:52:07:29:FB	AZ2012
+30:F7:72:63:C9:ED Acer2020 Wlan
+00:E0:4D:76:A8:5B weiﬂer Lapi USB Ethernet
