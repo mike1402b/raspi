@@ -8,3 +8,4 @@
 DC:9C:52:07:29:FB	AZ2012
 30:F7:72:63:C9:ED Acer2020 Wlan
 00:E0:4D:76:A8:5B weiﬂer Lapi USB Ethernet
+70:5A:0F:4A:8F:FE OgAz Hp
