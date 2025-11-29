@@ -13,7 +13,7 @@ void setup() {
   Serial.begin(115200);  
   // Attempt to connect to a specific access point
   Serial.println("try connect to Wifi");
-  WiFi.begin("Nokia X20", "Hew2549!"); 
+  WiFi.begin("hew17", "xxxPwdxxx"); 
   Serial.println("finished Wifi.begin");
 }
 
