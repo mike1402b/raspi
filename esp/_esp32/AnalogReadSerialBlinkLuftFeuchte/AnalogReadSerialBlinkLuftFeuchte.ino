@@ -4,7 +4,7 @@ benötigt DHT11 library
 
 #include <DHT11.h>
 
-DHT11 dht11(4); //Init param=Pin Nr, esp32 2
+DHT11 dht11(4); //Init param=Pin Nr, esp32 2 oder 4, 2 verhindert programmierung, ein bsp war 15
 
 #define led 2 //BUILTIN_LED
 
