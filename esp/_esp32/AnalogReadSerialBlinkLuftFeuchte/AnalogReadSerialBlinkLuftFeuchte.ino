@@ -1,18 +1,10 @@
 /*
-  AnalogReadSerial
-
-  Reads an analog input on pin 0, prints the result to the Serial Monitor.
-  Graphical representation is available using Serial Plotter (Tools > Serial Plotter menu).
-  Attach the center pin of a potentiometer to pin A0, and the outside pins to +5V and ground.
-
-  This example code is in the public domain.
-
-  https://docs.arduino.cc/built-in-examples/basics/AnalogReadSerial/
+benötigt DHT11 library
 */
 
 #include <DHT11.h>
 
-DHT11 dht11(2);
+DHT11 dht11(4); //Init param=Pin Nr, esp32 2
 
 #define led 2 //BUILTIN_LED
 
@@ -27,24 +19,16 @@ void setup() {
 void loop() {
 
   readTemp();
-
-  int humidity = dht11.readHumidity();
-  if (humidity != DHT11::ERROR_CHECKSUM && humidity != DHT11::ERROR_TIMEOUT) {
-      Serial.print("Humidity: ");
-      Serial.print(humidity);
-      Serial.println(" %");
-  } else {
-      // Print error message based on the error code.
-      Serial.println(DHT11::getErrorString(humidity));
-  }
+  readHum();
 
   int sensorValue = analogRead(A0);
   Serial.println(sensorValue);
+
+  Serial.println("Led high");
   digitalWrite(led, HIGH);
   delay(250);  // delay in between reads for stability
 
-  sensorValue = analogRead(A0);
-  Serial.println(sensorValue);
+  Serial.println("Led Low");
   digitalWrite(led, LOW);
   delay(250);  // delay in between reads for stability
 
@@ -53,6 +37,7 @@ void loop() {
 
 void readTemp()
 {
+    Serial.print("try Temperature ...");
     int temperature = dht11.readTemperature();
 
     // Check the result of the reading.
@@ -67,4 +52,19 @@ void readTemp()
         Serial.println(DHT11::getErrorString(temperature));
     }
 }
+
+void readHum()
+{
+    Serial.print("try Humidity ...");
+  int humidity = dht11.readHumidity();
+  if (humidity != DHT11::ERROR_CHECKSUM && humidity != DHT11::ERROR_TIMEOUT) {
+      Serial.print("Humidity: ");
+      Serial.print(humidity);
+      Serial.println(" %");
+  } else {
+      // Print error message based on the error code.
+      Serial.println(DHT11::getErrorString(humidity));
+  }
+}
+
 
