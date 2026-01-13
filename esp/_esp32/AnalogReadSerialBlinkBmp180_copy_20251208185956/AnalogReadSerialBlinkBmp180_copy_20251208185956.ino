@@ -1,5 +1,6 @@
 /*
-benötigt DHT11 library
+benötigt adafruit bmp085 Library, geht auch für bmp180
+https://randomnerdtutorials.com/esp32-with-bmp180-barometric-sensor/
 */
 
 #include <Adafruit_BMP085.h>
