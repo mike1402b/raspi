@@ -76,7 +76,7 @@ void loop() {
 
 
 
-      String serverPath = serverName + "?test=Ilmi14&status=0&val="+String(temp); //TODO convert val to string
+      String serverPath = serverName + "?test=Ilmi14&status=0&val="+String(temp); //TODO kategorie parameter taskid übergeben
       //String serverPath="http://192.168.1.6/test1.html";
       val=val+1;
       Serial.print("serverPath=");
