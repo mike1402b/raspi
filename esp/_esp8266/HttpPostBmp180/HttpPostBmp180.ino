@@ -17,19 +17,15 @@
 Adafruit_BMP085 bmp;
 
 const char* ssid = "hew17";
-const char* password = "xxxxxxxx";
+const char* password = "xxxxx";
 
 //Your Domain name with URL path or IP address with path
 String serverName = "http://t98.azurewebsites.net/zeitaddapi";
 //String serverName = "https://localhost:5000/zeitaddapi";
 
-// the following variables are unsigned longs because the time, measured in
-// milliseconds, will quickly become a bigger number than can be stored in an int.
+// the following variables are unsigned longs because the time, measured in milliseconds, will quickly become a bigger number than can be stored in an int.
 unsigned long lastTime = 0;
-// Timer set to 10 minutes (600000)
-//unsigned long timerDelay = 600000;
-// Set timer to 5 seconds (5000)
-unsigned long timerDelay = 5000;
+unsigned long timerDelay = 10000;
 
 void setup() {
   Serial.begin(9600); 
@@ -64,9 +60,10 @@ void loop() {
     //Check WiFi connection status
     if(WiFi.status()== WL_CONNECTED){
 
+    double temp=bmp.readTemperature();
 
     Serial.print("Temperature = ");
-    Serial.print(bmp.readTemperature());
+    Serial.print(temp);
     Serial.println(" *C");
     
     Serial.print("Pressure = ");
@@ -79,8 +76,8 @@ void loop() {
 
 
 
-      //String serverPath = serverName + "?test=Ilmi14&status=0&val=123"; //TODO convert val to string
-      String serverPath="http://192.168.1.6/test1.html";
+      String serverPath = serverName + "?test=Ilmi14&status=0&val="+String(temp); //TODO convert val to string
+      //String serverPath="http://192.168.1.6/test1.html";
       val=val+1;
       Serial.print("serverPath=");
       Serial.println(serverPath);
