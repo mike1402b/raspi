@@ -45,16 +45,18 @@ void setup() {
   Serial.println("Timer set to 5 seconds (timerDelay variable), it will take 5 seconds before publishing the first reading.");
 }
 
+int val=1;
+
 void loop() {
   // Send an HTTP POST request depending on timerDelay
-  int val=1;
+  
   if ((millis() - lastTime) > timerDelay) {
     //Check WiFi connection status
     if(WiFi.status()== WL_CONNECTED){
       WiFiClient client;
       HTTPClient http;
 
-      String serverPath = serverName + "?test=Ilmi14&status=0&val=123"; //TODO convert val to string
+      String serverPath = serverName + "?test=Ilmi14&status=0&val=1"+String(val); //TODO convert val to string
       //serverPath="http://192.168.1.6/test1.html";
       val=val+1;
       Serial.print("serverPath=");
@@ -73,7 +75,7 @@ void loop() {
         Serial.print("HTTP Response code: ");
         Serial.println(httpResponseCode);
         String payload = http.getString();
-        Serial.println(payload);
+        //Serial.println(payload); -- gibt fehler aus obwohl messwert in db geschrieben wird, ausgabe verwirrt nur
       }
       else {
         Serial.print("Error code: ");
