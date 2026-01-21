@@ -52,57 +52,61 @@ void setup() {
 }
 
 
+double oldTemp=-270;
 
 void loop() {
   // Send an HTTP POST request depending on timerDelay
   int val=1;
   if ((millis() - lastTime) > timerDelay) {
     //Check WiFi connection status
-    if(WiFi.status()== WL_CONNECTED){
+    if(WiFi.status()== WL_CONNECTED)
+    {
 
-    double temp=bmp.readTemperature();
+      double temp=bmp.readTemperature();
 
-    Serial.print("Temperature = ");
-    Serial.print(temp);
-    Serial.println(" *C");
-    
-    Serial.print("Pressure = ");
-    Serial.print(bmp.readPressure());
-    Serial.println(" Pa");
-
-      WiFiClient client;
-      HTTPClient http;
-
-
-
-
-      String serverPath = serverName + "?test=Ilmi14&status=0&val="+String(temp); //TODO kategorie parameter taskid übergeben
-      //String serverPath="http://192.168.1.6/test1.html";
-      val=val+1;
-      Serial.print("serverPath=");
-      Serial.println(serverPath);
+      Serial.print("Temperature = ");
+      Serial.print(temp);
+      Serial.println(" *C");
       
-      // Your Domain name with URL path or IP address with path
-      http.begin(client, serverPath.c_str());
-  
-      // If you need Node-RED/server authentication, insert user and password below
-      //http.setAuthorization("REPLACE_WITH_SERVER_USERNAME", "REPLACE_WITH_SERVER_PASSWORD");
+      Serial.print("Pressure = ");
+      Serial.print(bmp.readPressure());
+      Serial.println(" Pa");
+
+      if (oldTemp<>temp)
+      {
+
+        WiFiClient client;
+        HTTPClient http;
+
+        String serverPath = serverName + "?test=Ilmi14&status=0&val="+String(temp); //TODO kategorie parameter taskid übergeben
+        //String serverPath="http://192.168.1.6/test1.html";
+        val=val+1;
+        Serial.print("serverPath=");
+        Serial.println(serverPath);
         
-      // Send HTTP GET request
-      int httpResponseCode = http.GET();
-      
-      if (httpResponseCode>0) {
-        Serial.print("HTTP Response code: ");
-        Serial.println(httpResponseCode);
-        String payload = http.getString();
-        Serial.println(payload);
+        // Your Domain name with URL path or IP address with path
+        http.begin(client, serverPath.c_str());
+    
+        // If you need Node-RED/server authentication, insert user and password below
+        //http.setAuthorization("REPLACE_WITH_SERVER_USERNAME", "REPLACE_WITH_SERVER_PASSWORD");
+          
+        // Send HTTP GET request
+        int httpResponseCode = http.GET();
+        
+        if (httpResponseCode>0) {
+          Serial.print("HTTP Response code: ");
+          Serial.println(httpResponseCode);
+          String payload = http.getString();
+          Serial.println(payload);
+        }
+        else {
+          Serial.print("Error code: ");
+          Serial.println(httpResponseCode);
+        }
+        // Free resources
+        http.end();
       }
-      else {
-        Serial.print("Error code: ");
-        Serial.println(httpResponseCode);
-      }
-      // Free resources
-      http.end();
+      oldTemp=temp;
     }
     else {
       Serial.println("WiFi Disconnected");
