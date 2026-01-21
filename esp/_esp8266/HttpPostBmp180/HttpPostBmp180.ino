@@ -108,9 +108,11 @@ void loop() {
       }
       oldTemp=temp;
     }
-    else {
+    else 
+    {
       Serial.println("WiFi Disconnected");
     }
+    delay(1000);
     lastTime = millis();
   }
 }
