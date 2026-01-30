@@ -17,7 +17,7 @@
 Adafruit_BMP085 bmp;
 
 const char* ssid = "hew17";
-const char* password = "xxxxx";
+const char* password = "Hew2549!";
 
 //Your Domain name with URL path or IP address with path
 String serverName = "http://t98.azurewebsites.net/zeitaddapi";
@@ -27,7 +27,13 @@ String serverName = "http://t98.azurewebsites.net/zeitaddapi";
 unsigned long lastTime = 0;
 unsigned long timerDelay = 10000;
 
+#define builtinLed 2 //BUILTIN_LED
+bool lastLed=true;
+
 void setup() {
+  pinMode(builtinLed, OUTPUT);
+  digitalWrite(builtinLed, HIGH);
+
   Serial.begin(9600); 
   delay(500);
   Serial.println("======================================  setup  =========================================");
@@ -72,8 +78,9 @@ void loop() {
       Serial.print(bmp.readPressure());
       Serial.println(" Pa");
 
-      if (oldTemp<>temp)
+      if (abs(oldTemp-temp)>0.1) // nur größere Änderungen als 0,1 °C schreiben
       {
+        oldTemp=temp;
 
         WiFiClient client;
         HTTPClient http;
@@ -97,7 +104,7 @@ void loop() {
           Serial.print("HTTP Response code: ");
           Serial.println(httpResponseCode);
           String payload = http.getString();
-          Serial.println(payload);
+          //macht wenig sinn, da response sehr langer text aufgrund fehler in webanwendung Serial.println(payload);
         }
         else {
           Serial.print("Error code: ");
@@ -106,13 +113,18 @@ void loop() {
         // Free resources
         http.end();
       }
-      oldTemp=temp;
+      
     }
     else 
     {
       Serial.println("WiFi Disconnected");
     }
     delay(1000);
+    lastLed=!lastLed;
+    if (lastLed)
+      digitalWrite(builtinLed, HIGH);
+    else
+      digitalWrite(builtinLed, LOW);
     lastTime = millis();
   }
 }
