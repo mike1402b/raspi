@@ -13,23 +13,23 @@
 #include <ESP8266HTTPClient.h>
 #include <WiFiClient.h>
 
+#include <Adafruit_BMP085.h>
+Adafruit_BMP085 bmp;
+
 const char* ssid = "hew17";
 const char* password = "Hew2549!";
 
 //Your Domain name with URL path or IP address with path
 String serverName = "http://t98.azurewebsites.net/zeitaddapi";
-//String serverName = "https://localhost:5000/zeitaddapi";
 
-// the following variables are unsigned longs because the time, measured in
-// milliseconds, will quickly become a bigger number than can be stored in an int.
+
+// the following variables are unsigned longs because the time, measured in // milliseconds, will quickly become a bigger number than can be stored in an int.
+unsigned long timerDelay = 10000;
 unsigned long lastTime = 0;
-// Timer set to 10 minutes (600000)
-//unsigned long timerDelay = 600000;
-// Set timer to 5 seconds (5000)
-unsigned long timerDelay = 5000;
 
 void setup() {
   Serial.begin(9600); 
+  delay(500);
   Serial.println("======================================  setup  =========================================");
 
   WiFi.begin(ssid, password);
@@ -41,23 +41,42 @@ void setup() {
   Serial.println("");
   Serial.print("Connected to WiFi network with IP Address: ");
   Serial.println(WiFi.localIP());
+
+
+  if (!bmp.begin()) {
+	  Serial.println("Could not find a valid BMP085/BMP180 sensor, check wiring!");
+	while (1) {}
+  }
  
   Serial.println("Timer set to 5 seconds (timerDelay variable), it will take 5 seconds before publishing the first reading.");
 }
 
-int val=1;
+
 
 void loop() {
   // Send an HTTP POST request depending on timerDelay
-  
+  int val=1;
   if ((millis() - lastTime) > timerDelay) {
     //Check WiFi connection status
     if(WiFi.status()== WL_CONNECTED){
+
+
+    Serial.print("Temperature = ");
+    Serial.print(bmp.readTemperature());
+    Serial.println(" *C");
+    
+    Serial.print("Pressure = ");
+    Serial.print(bmp.readPressure());
+    Serial.println(" Pa");
+
       WiFiClient client;
       HTTPClient http;
 
-      String serverPath = serverName + "?test=Ilmi14&status=0&val=1"+String(val); //TODO convert val to string
-      //serverPath="http://192.168.1.6/test1.html";
+
+
+
+      String serverPath = serverName + "?test=Ilmi14&status=0&val=123"; //TODO convert val to string
+      //String serverPath="http://192.168.1.6/test1.html";
       val=val+1;
       Serial.print("serverPath=");
       Serial.println(serverPath);
@@ -75,7 +94,7 @@ void loop() {
         Serial.print("HTTP Response code: ");
         Serial.println(httpResponseCode);
         String payload = http.getString();
-        //Serial.println(payload); -- gibt fehler aus obwohl messwert in db geschrieben wird, ausgabe verwirrt nur
+        Serial.println(payload);
       }
       else {
         Serial.print("Error code: ");

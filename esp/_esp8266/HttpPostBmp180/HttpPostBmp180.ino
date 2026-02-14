@@ -17,21 +17,23 @@
 Adafruit_BMP085 bmp;
 
 const char* ssid = "hew17";
-const char* password = "xxxxxxxx";
+const char* password = "Hew2549!";
 
 //Your Domain name with URL path or IP address with path
 String serverName = "http://t98.azurewebsites.net/zeitaddapi";
 //String serverName = "https://localhost:5000/zeitaddapi";
 
-// the following variables are unsigned longs because the time, measured in
-// milliseconds, will quickly become a bigger number than can be stored in an int.
+// the following variables are unsigned longs because the time, measured in milliseconds, will quickly become a bigger number than can be stored in an int.
 unsigned long lastTime = 0;
-// Timer set to 10 minutes (600000)
-//unsigned long timerDelay = 600000;
-// Set timer to 5 seconds (5000)
-unsigned long timerDelay = 5000;
+unsigned long timerDelay = 10000;
+
+#define builtinLed 2 //BUILTIN_LED
+bool lastLed=true;
 
 void setup() {
+  pinMode(builtinLed, OUTPUT);
+  digitalWrite(builtinLed, HIGH);
+
   Serial.begin(9600); 
   delay(500);
   Serial.println("======================================  setup  =========================================");
@@ -56,60 +58,73 @@ void setup() {
 }
 
 
+double oldTemp=-270;
 
 void loop() {
   // Send an HTTP POST request depending on timerDelay
   int val=1;
   if ((millis() - lastTime) > timerDelay) {
     //Check WiFi connection status
-    if(WiFi.status()== WL_CONNECTED){
+    if(WiFi.status()== WL_CONNECTED)
+    {
 
+      double temp=bmp.readTemperature();
 
-    Serial.print("Temperature = ");
-    Serial.print(bmp.readTemperature());
-    Serial.println(" *C");
-    
-    Serial.print("Pressure = ");
-    Serial.print(bmp.readPressure());
-    Serial.println(" Pa");
-
-      WiFiClient client;
-      HTTPClient http;
-
-
-
-
-      //String serverPath = serverName + "?test=Ilmi14&status=0&val=123"; //TODO convert val to string
-      String serverPath="http://192.168.1.6/test1.html";
-      val=val+1;
-      Serial.print("serverPath=");
-      Serial.println(serverPath);
+      Serial.print("Temperature = ");
+      Serial.print(temp);
+      Serial.println(" *C");
       
-      // Your Domain name with URL path or IP address with path
-      http.begin(client, serverPath.c_str());
-  
-      // If you need Node-RED/server authentication, insert user and password below
-      //http.setAuthorization("REPLACE_WITH_SERVER_USERNAME", "REPLACE_WITH_SERVER_PASSWORD");
+      Serial.print("Pressure = ");
+      Serial.print(bmp.readPressure());
+      Serial.println(" Pa");
+
+      if (abs(oldTemp-temp)>0.1) // nur größere Änderungen als 0,1 °C schreiben
+      {
+        oldTemp=temp;
+
+        WiFiClient client;
+        HTTPClient http;
+
+        String serverPath = serverName + "?test=Ilmi14&status=0&val="+String(temp); //TODO kategorie parameter taskid übergeben
+        //String serverPath="http://192.168.1.6/test1.html";
+        val=val+1;
+        Serial.print("serverPath=");
+        Serial.println(serverPath);
         
-      // Send HTTP GET request
-      int httpResponseCode = http.GET();
+        // Your Domain name with URL path or IP address with path
+        http.begin(client, serverPath.c_str());
+    
+        // If you need Node-RED/server authentication, insert user and password below
+        //http.setAuthorization("REPLACE_WITH_SERVER_USERNAME", "REPLACE_WITH_SERVER_PASSWORD");
+          
+        // Send HTTP GET request
+        int httpResponseCode = http.GET();
+        
+        if (httpResponseCode>0) {
+          Serial.print("HTTP Response code: ");
+          Serial.println(httpResponseCode);
+          String payload = http.getString();
+          //macht wenig sinn, da response sehr langer text aufgrund fehler in webanwendung Serial.println(payload);
+        }
+        else {
+          Serial.print("Error code: ");
+          Serial.println(httpResponseCode);
+        }
+        // Free resources
+        http.end();
+      }
       
-      if (httpResponseCode>0) {
-        Serial.print("HTTP Response code: ");
-        Serial.println(httpResponseCode);
-        String payload = http.getString();
-        Serial.println(payload);
-      }
-      else {
-        Serial.print("Error code: ");
-        Serial.println(httpResponseCode);
-      }
-      // Free resources
-      http.end();
     }
-    else {
+    else 
+    {
       Serial.println("WiFi Disconnected");
     }
+    delay(1000);
+    lastLed=!lastLed;
+    if (lastLed)
+      digitalWrite(builtinLed, HIGH);
+    else
+      digitalWrite(builtinLed, LOW);
     lastTime = millis();
   }
 }

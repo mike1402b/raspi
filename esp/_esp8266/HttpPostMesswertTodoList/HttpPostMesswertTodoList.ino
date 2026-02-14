@@ -14,19 +14,15 @@
 #include <WiFiClient.h>
 
 const char* ssid = "hew17";
-const char* password = "Hew2549!";
+const char* password = "xxxx!";
 
 //Your Domain name with URL path or IP address with path
 String serverName = "http://t98.azurewebsites.net/zeitaddapi";
-//String serverName = "https://localhost:5000/zeitaddapi";
 
-// the following variables are unsigned longs because the time, measured in
-// milliseconds, will quickly become a bigger number than can be stored in an int.
+
+// the following variables are unsigned longs because the time, measured in milliseconds, will quickly become a bigger number than can be stored in an int.
+unsigned long timerDelay = 10000;
 unsigned long lastTime = 0;
-// Timer set to 10 minutes (600000)
-//unsigned long timerDelay = 600000;
-// Set timer to 5 seconds (5000)
-unsigned long timerDelay = 5000;
 
 void setup() {
   Serial.begin(9600); 
